@@ -63,8 +63,4 @@ workflows:
             - build
           filters:
             branches:
-              # TODO: change to master
-              only: deploy
-
-
-
+              only: master
