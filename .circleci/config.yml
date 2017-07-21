@@ -27,6 +27,5 @@ jobs:
       - store_artifacts:
           path: deeprefactoring-bot
 
-
       - store_artifacts:
           path: coverage.html
