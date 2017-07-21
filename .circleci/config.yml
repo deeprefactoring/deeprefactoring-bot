@@ -1,0 +1,45 @@
+machine:
+  timezone:
+    UTC
+  services:
+    - docker
+
+dependencies:
+  override:
+    - echo pass
+
+test:
+  override:
+    - make ci
+  post:
+    # upload artifacts
+    - mkdir -p $CIRCLE_TEST_REPORTS/{junit,coverage}
+    - cp coverage.html $CIRCLE_TEST_REPORTS/coverage/
+    - cp deeprefactoring-bot $CIRCLE_ARTIFACTS/
+
+
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.8
+
+    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    steps:
+      - checkout
+
+      - run:
+          name: Install glide
+          environment:
+            GLIDE_VERSION: v0.12.3
+          command: |
+            cd /tmp
+            wget https://github.com/Masterminds/glide/releases/download/${VERSION}/glide-${GLIDE_VERSION}-linux-amd64.tar.gz
+            tar xzf glide-${GLIDE_VERSION}-linux-amd64.tar.gz
+            mv linux-amd64/glide /usr/bin/
+            rm -rf /tmp/*
+
+      - run: make package
