@@ -30,8 +30,21 @@ jobs:
       - store_artifacts:
           path: coverage.html
 
-      - run: echo ${VAULT_PASSWORD} > password
+      - persist_to_workspace:
+          root: .
+          paths:
+            - deeprefactoring-bot
 
+  build:
+    docker:
+      - image: ansible/ansible:ubuntu1604
+
+    steps:
+      - run: pip install ansible==2.3.1.0
+      - run: echo ${VAULT_PASSWORD} > password
+      - attach_workspace:
+          at: .
+      - run: find .
       - deploy:
           # TODO: change to master
           command: |
