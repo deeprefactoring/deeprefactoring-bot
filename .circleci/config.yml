@@ -42,5 +42,10 @@ jobs:
             sudo -u root mv linux-amd64/glide /usr/bin/
             rm -rf /tmp/*
 
-      - run: find /go/src/github.com/
       - run: make package
+
+      - store_artifacts:
+          path: deeprefactoring-bot
+
+      - store_artifacts:
+          path: coverage.html
