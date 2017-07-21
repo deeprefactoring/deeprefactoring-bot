@@ -1,2 +1,5 @@
 telegram:
   api_key: xxxx
+
+application:
+  log_level: debug
