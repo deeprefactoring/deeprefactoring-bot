@@ -1,0 +1,13 @@
+[Unit]
+Description=DeepRefactoring bot
+
+[Service]
+Type=simple
+WorkingDirectory={{bot_root}}
+ExecStart={{bot_binary}}
+KillMode=process
+Restart=on-failure
+
+
+[Install]
+WantedBy=multi-user.target

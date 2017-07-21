@@ -29,3 +29,13 @@ jobs:
 
       - store_artifacts:
           path: coverage.html
+
+      - run: echo ${VAULT_PASSWORD} > password
+
+      - deploy:
+          # TODO: change to master
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "deploy" ]; then
+              cd .circleci
+              ansible-playbook site.yml -i production  --vault-password-file password
+            fi
