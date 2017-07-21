@@ -2,6 +2,7 @@ package deeprefactoringbot
 
 import (
 	"fmt"
+	"github.com/Sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 )
@@ -10,8 +11,32 @@ type TelegramConfig struct {
 	ApiKey string `yaml:"api_key"`
 }
 
+type ApplicationConfig struct {
+	LogLevel logrus.Level
+}
+
+func (c *ApplicationConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	aux := &struct {
+		LogLevel string `yaml:"log_level"`
+	}{}
+
+	err := unmarshal(&aux)
+	if err != nil {
+		return err
+	}
+
+	level, err := logrus.ParseLevel(aux.LogLevel)
+	if err != nil {
+		return fmt.Errorf("can't parse log level %s", aux.LogLevel)
+	}
+
+	c.LogLevel = level
+	return nil
+}
+
 type Config struct {
-	Telegram TelegramConfig `yaml:"telegram"`
+	Telegram    TelegramConfig    `yaml:"telegram"`
+	Application ApplicationConfig `yaml:"application"`
 }
 
 func NewConfig(path string) (*Config, error) {

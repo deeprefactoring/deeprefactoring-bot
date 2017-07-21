@@ -9,36 +9,38 @@ import (
 	"os"
 )
 
-var configPath = flag.String("config", "config.yml", "configuration path")
-var logLevel = flag.String("log-level", "info", "logging level")
+var buildVersion, buildDate string
+
+var Arguments struct {
+	ConfigPath string
+	Version    bool
+}
 
 func init() {
+	flag.StringVar(&Arguments.ConfigPath, "config", "config.yml", "configuration path")
+	flag.BoolVar(&Arguments.Version, "version", false, "output version information")
 	flag.Parse()
 }
 
-func initLogger(logLevel string) error {
-	level, err := logrus.ParseLevel(logLevel)
-	if err != nil {
-		return fmt.Errorf("can't parse log level %s", logLevel)
-	}
-
+func initLogger(level logrus.Level) {
 	logrus.SetFormatter(&logrus.TextFormatter{})
 	logrus.SetLevel(level)
 	logrus.SetOutput(os.Stderr)
-
-	return nil
 }
 
 func main() {
-	err := initLogger(*logLevel)
+	if Arguments.Version {
+		fmt.Println("build version:", buildVersion)
+		fmt.Println("build date:", buildDate)
+		os.Exit(0)
+	}
+
+	config, err := deeprefactoringbot.NewConfig(Arguments.ConfigPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	config, err := deeprefactoringbot.NewConfig(*configPath)
-	if err != nil {
-		log.Fatal(err)
-	}
+	initLogger(config.Application.LogLevel)
 
 	service, err := deeprefactoringbot.NewService(config.Telegram.ApiKey)
 	if err != nil {

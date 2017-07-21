@@ -1,4 +1,5 @@
 PACKAGE := github.com/deeprefactoring/deeprefactoring-bot
+BINARY_NAME := deeprefactoring-bot
 
 GOFILES_NOVENDOR = $(shell find . -type f -name '*.go' | grep -v /vendor/ | grep -v /.glide/)
 
@@ -32,12 +33,15 @@ lint: format-check vet
 build-static:
 	go build -v -x -race \
 	    -ldflags "-linkmode external -extldflags -static $(VERSION_FLAGS)" \
-	    -o deeprefactoring-bot \
+	    -o $(BINARY_NAME) \
 	    $(PACKAGE)/cmd/app
 
 .PHONY: build
 build:
-	go build -v -ldflags "$(VERSION_FLAGS)" $(PACKAGE)/cmd/app
+	go build -v \
+	    -ldflags "$(VERSION_FLAGS)" \
+	    -o $(BINARY_NAME) \
+	    $(PACKAGE)/cmd/app
 
 .PHONY: test
 test:
