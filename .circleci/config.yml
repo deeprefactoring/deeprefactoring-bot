@@ -40,6 +40,7 @@ jobs:
       - image: ansible/ansible:ubuntu1604
 
     steps:
+      - checkout
       - run: pip install ansible==2.3.1.0
       - run: echo ${VAULT_PASSWORD} > password
       - attach_workspace:
