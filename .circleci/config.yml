@@ -39,8 +39,8 @@ jobs:
             cd /tmp
             wget https://github.com/Masterminds/glide/releases/download/${GLIDE_VERSION}/glide-${GLIDE_VERSION}-linux-amd64.tar.gz
             tar xzf glide-${GLIDE_VERSION}-linux-amd64.tar.gz
-            mv linux-amd64/glide /usr/local/bin/
             echo $PATH
+            sudo -u root mv linux-amd64/glide /usr/bin/
             rm -rf /tmp/*
 
       - run: make package
