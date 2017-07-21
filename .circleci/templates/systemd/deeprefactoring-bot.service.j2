@@ -2,6 +2,8 @@
 Description=DeepRefactoring bot
 
 [Service]
+User={{bot_user}}
+Group={{bot_group}}
 Type=simple
 WorkingDirectory={{bot_root}}
 ExecStart={{bot_binary}}

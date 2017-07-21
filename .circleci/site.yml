@@ -5,6 +5,8 @@
   vars:
     bot_root: /opt/deeprefactoring-bot
     bot_binary: '{{bot_root}}/deeprefactoring-bot'
+    bot_user: www-data
+    bot_group: www-data
 
   handlers:
     - name: reload systemd config
@@ -26,6 +28,8 @@
         src: ../deeprefactoring-bot
         dest: '{{bot_binary}}'
         mode: 755
+        owner: '{{bot_user}}'
+        group: '{{bot_group}}'
       notify:
         - restart bot service
 
@@ -34,8 +38,8 @@
         src: bot/config.yml.j2
         dest: '{{bot_root}}/config.yml'
         mode: 0644
-        owner: root
-        group: root
+        owner: '{{bot_user}}'
+        group: '{{bot_group}}'
       notify:
         - restart bot service
 
