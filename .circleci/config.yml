@@ -29,3 +29,38 @@ jobs:
 
       - store_artifacts:
           path: coverage.html
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - deeprefactoring-bot
+
+  deploy:
+    docker:
+      - image: ansible/ansible:ubuntu1604
+
+    environment:
+      ANSIBLE_HOST_KEY_CHECKING: False
+
+    steps:
+      - checkout
+      - run: pip install ansible==2.3.1.0
+      - attach_workspace:
+          at: .
+      - run: echo ${VAULT_PASSWORD} > .circleci/password
+      - deploy:
+          command: |
+            cd .circleci
+            ansible-playbook site.yml -i production  --vault-password-file password
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
