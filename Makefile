@@ -55,21 +55,3 @@ bench:
 
 .PHONY: package
 package: lint deps test build-static
-
-
-#
-# Following targets related to CI and docker
-#
-
-# run inside docker
-
-# entry point for CI
-.PHONY: ci
-ci:
-	docker run -it \
-	    -u $(id -u):$(id -g) \
-	    -v `pwd`/Makefile:/go/Makefile \
-	    -v `pwd`:/go/src/$(PACKAGE) \
-	    -w /go/src/$(PACKAGE) \
-	    ykhrustalev/go-glide:1.8.0 \
-	    make package
