@@ -2,11 +2,11 @@ package main
 
 import (
 	"flag"
-	"github.com/Sirupsen/logrus"
-	"os"
 	"fmt"
-	"log"
+	"github.com/Sirupsen/logrus"
 	"github.com/deeprefactoring/deeprefactoring-bot"
+	"log"
+	"os"
 )
 
 var configPath = flag.String("config", "config.yml", "configuration path")

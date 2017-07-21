@@ -1,9 +1,9 @@
 package deeprefactoringbot
 
 import (
+	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
-	"fmt"
 )
 
 type TelegramConfig struct {

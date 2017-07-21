@@ -1,12 +1,9 @@
 package deeprefactoringbot
 
 import (
+	"fmt"
 	"github.com/Sirupsen/logrus"
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"fmt"
-	"strings"
-	"time"
-	"math/rand"
 )
 
 type Service struct {
@@ -25,7 +22,7 @@ func NewService(apiKey string) (*Service, error) {
 
 	logger.Info("Authorized")
 
-	return &Service{logger: logger, bot: bot, }, nil
+	return &Service{logger: logger, bot: bot}, nil
 }
 
 func (s *Service) Listen() {
@@ -66,20 +63,7 @@ func (s *Service) handleUpdate(update *tgbotapi.Update) {
 }
 
 func (s *Service) Greeting(update *tgbotapi.Update) error {
-
-	messages := make([]string, 0)
-	messages = append(messages,
-		"{username}, деплоить докером не бросим",
-		"Питон лучше руби",
-		"Вечер в коворкинг, {username}, деплой в радость, ролбек в сладость",
-		"Привет {username}",
-	)
-
-
-	r := rand.New(rand.NewSource(time.Now().Unix()))
-	text := messages[r.Intn(len(messages))]
-
-	text = strings.Replace(text, "{username}", fmt.Sprintf("@%s", update.Message.From.UserName), 1)
+	text := RandomGreeting(update.Message.From.UserName)
 
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
 	s.bot.Send(msg)

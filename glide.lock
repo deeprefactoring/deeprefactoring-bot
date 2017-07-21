@@ -1,5 +1,5 @@
-hash: 5d3094f39856ffb798c9621817df0a104f448aae2f368bc5007bc246daa9646c
-updated: 2017-07-21T11:58:41.432996272+03:00
+hash: 8d535ad418a9b47676502fc75094b3ae818c312f4e2a87bdaafb22bb5bf2378f
+updated: 2017-07-21T12:31:08.467484786+03:00
 imports:
 - name: github.com/go-telegram-bot-api/telegram-bot-api
   version: 0a57807db79efce7f6719fbb2c0e0f83fda79aec
@@ -13,4 +13,8 @@ imports:
   - unix
 - name: gopkg.in/yaml.v2
   version: a5b47d31c556af34a302ce5d659e6fea44d90de0
-testImports: []
+testImports:
+- name: github.com/stretchr/testify
+  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
+  subpackages:
+  - assert
