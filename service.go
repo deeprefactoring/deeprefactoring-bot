@@ -36,7 +36,13 @@ func (s *Service) Listen() {
 	updates, _ := s.bot.GetUpdatesChan(updateConfig)
 
 	for update := range updates {
-		s.logger.WithField("obj", update).Debug("new update")
+		s.logger.WithFields(logrus.Fields{
+			"update": update,
+			"ChannelPost": update.ChannelPost,
+			"Message": update.Message,
+			"NewChatMember": update.Message.NewChatMember,
+			"EditedChannelPost": update.EditedChannelPost,
+		}).Debug("new update")
 		s.handleUpdate(&update)
 	}
 }
@@ -51,7 +57,7 @@ func (s *Service) handleUpdate(update *tgbotapi.Update) {
 	if message.IsCommand() {
 		command := message.Command()
 		if command == "greeting" {
-			s.Greeting(update)
+			s.Greeting(update, update.Message.From.UserName)
 		} else {
 			s.logger.WithFields(logrus.Fields{
 				"command": message.Command(),
@@ -59,11 +65,27 @@ func (s *Service) handleUpdate(update *tgbotapi.Update) {
 			}).Warn("unknown command")
 		}
 	}
-	// doing nothing on non commands
+
+	if update.Message.NewChatMember !=nil {
+		s.Greeting(update, update.Message.NewChatMember.UserName)
+	}
+
+	if update.Message.LeftChatMember !=nil {
+		s.GoAwayMessage(update, update.Message.LeftChatMember.UserName)
+	}
 }
 
-func (s *Service) Greeting(update *tgbotapi.Update) error {
-	text := RandomGreeting(update.Message.From.UserName)
+func (s *Service) Greeting(update *tgbotapi.Update, username string) error {
+	text := RandomGreeting(username)
+
+	msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
+	s.bot.Send(msg)
+
+	return nil
+}
+
+func (s *Service) GoAwayMessage(update *tgbotapi.Update, username string) error {
+	text := RandomCurse(username)
 
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
 	s.bot.Send(msg)
