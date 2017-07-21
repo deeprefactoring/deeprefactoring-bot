@@ -37,10 +37,10 @@ func (s *Service) Listen() {
 
 	for update := range updates {
 		s.logger.WithFields(logrus.Fields{
-			"update": update,
-			"ChannelPost": update.ChannelPost,
-			"Message": update.Message,
-			"NewChatMember": update.Message.NewChatMember,
+			"update":            update,
+			"ChannelPost":       update.ChannelPost,
+			"Message":           update.Message,
+			"NewChatMember":     update.Message.NewChatMember,
 			"EditedChannelPost": update.EditedChannelPost,
 		}).Debug("new update")
 		s.handleUpdate(&update)
@@ -66,11 +66,11 @@ func (s *Service) handleUpdate(update *tgbotapi.Update) {
 		}
 	}
 
-	if update.Message.NewChatMember !=nil {
+	if update.Message.NewChatMember != nil {
 		s.Greeting(update, update.Message.NewChatMember.UserName)
 	}
 
-	if update.Message.LeftChatMember !=nil {
+	if update.Message.LeftChatMember != nil {
 		s.GoAwayMessage(update, update.Message.LeftChatMember.UserName)
 	}
 }
