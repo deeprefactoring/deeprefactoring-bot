@@ -21,6 +21,8 @@ var curseMessages = []string{
 	"Мы тебя тоже не любим",
 }
 
+var nextMeetupMessage = "Анонс следующего митапа: http://deeprefactoring.ru/meetup/next/"
+
 var randomiser = rand.New(rand.NewSource(time.Now().Unix()))
 
 func ReplaceUsername(text, username string) string {
@@ -35,4 +37,8 @@ func RandomGreeting(username string) string {
 func RandomCurse(username string) string {
 	text := curseMessages[randomiser.Intn(len(curseMessages))]
 	return ReplaceUsername(text, username)
+}
+
+func NextMeetupInfo() string {
+	return nextMeetupMessage
 }
