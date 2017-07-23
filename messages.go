@@ -26,7 +26,6 @@ var curseMessages = []string{
 	"Мы тебя тоже не любим",
 }
 
-
 var rollMessages = []string{
 	"Живые форки php4",
 	"Переходные процессы в проектах однодневках",
@@ -56,8 +55,6 @@ var rollMessages = []string{
 	"Выход из vim народными средствами",
 	"Рациональны предложения менеджеру, которые ты никогда не озвучишь",
 }
-
-
 
 const nextMeetupMessage = "Анонс следующего митапа: http://deeprefactoring.ru/meetup/next/"
 
