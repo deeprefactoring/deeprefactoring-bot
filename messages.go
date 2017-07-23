@@ -11,7 +11,12 @@ var greetingMessages = []string{
 	"{username}, деплоить докером не бросим",
 	"Питон лучше руби",
 	"Вечер в коворкинг, {username}, деплой в радость, ролбек в сладость",
-	"Привет {username}",
+	"Привет, {username}",
+	"{username}, опиши свой проект версией дебиана",
+	"{username}, сколько ты принес прибыли компании сегодня?",
+	"raise Exception('hello {username}')",
+	"Лучший воронежский чат о рефакторинге привествует тебя, {username}",
+	"1 1111 11111111 11111111",
 }
 
 var curseMessages = []string{
@@ -21,7 +26,7 @@ var curseMessages = []string{
 	"Мы тебя тоже не любим",
 }
 
-var nextMeetupMessage = "Анонс следующего митапа: http://deeprefactoring.ru/meetup/next/"
+const nextMeetupMessage = "Анонс следующего митапа: http://deeprefactoring.ru/meetup/next/"
 
 var randomiser = rand.New(rand.NewSource(time.Now().Unix()))
 
