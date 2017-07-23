@@ -56,9 +56,12 @@ func (s *Service) handleUpdate(update *tgbotapi.Update) {
 
 	if message.IsCommand() {
 		command := message.Command()
-		if command == "greeting" {
+		switch command {
+		case "greeting":
 			s.Greeting(update, update.Message.From.UserName)
-		} else {
+		case "nextmeetup":
+			s.NextMeetup(update)
+		default:
 			s.logger.WithFields(logrus.Fields{
 				"command": message.Command(),
 				"message": message,
@@ -75,20 +78,23 @@ func (s *Service) handleUpdate(update *tgbotapi.Update) {
 	}
 }
 
-func (s *Service) Greeting(update *tgbotapi.Update, username string) error {
-	text := RandomGreeting(username)
-
+func (s *Service) Send(update *tgbotapi.Update, text string) error {
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
 	s.bot.Send(msg)
-
 	return nil
+}
+
+func (s *Service) Greeting(update *tgbotapi.Update, username string) error {
+	text := RandomGreeting(username)
+	return s.Send(update, text)
 }
 
 func (s *Service) GoAwayMessage(update *tgbotapi.Update, username string) error {
 	text := RandomCurse(username)
+	return s.Send(update, text)
+}
 
-	msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
-	s.bot.Send(msg)
-
-	return nil
+func (s *Service) NextMeetup(update *tgbotapi.Update) error {
+	text := NextMeetupInfo()
+	return s.Send(update, text)
 }
