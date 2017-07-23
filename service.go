@@ -61,6 +61,8 @@ func (s *Service) handleUpdate(update *tgbotapi.Update) {
 			s.Greeting(update, update.Message.From.UserName)
 		case "nextmeetup":
 			s.NextMeetup(update)
+		case "roll":
+			s.RollMessage(update)
 		default:
 			s.logger.WithFields(logrus.Fields{
 				"command": message.Command(),
@@ -96,5 +98,10 @@ func (s *Service) GoAwayMessage(update *tgbotapi.Update, username string) error 
 
 func (s *Service) NextMeetup(update *tgbotapi.Update) error {
 	text := NextMeetupInfo()
+	return s.Send(update, text)
+}
+
+func (s *Service) RollMessage(update *tgbotapi.Update) error {
+	text := RollMessage()
 	return s.Send(update, text)
 }
