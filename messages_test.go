@@ -22,3 +22,11 @@ func TestReplaceUsername(t *testing.T) {
 		assert.Equal(t, c.expected, actual)
 	}
 }
+
+func TestRandomCurse(t *testing.T) {
+	assert.NotEqual(t, deeprefactoringbot.RandomCurse("x"), "")
+}
+
+func TestRandomGreeting(t *testing.T) {
+	assert.NotEqual(t, deeprefactoringbot.RandomGreeting("x"), "")
+}
