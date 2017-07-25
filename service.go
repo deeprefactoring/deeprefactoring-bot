@@ -29,14 +29,10 @@ func NewServiceFromTgbotapi(apiKey string) (*Service, error) {
 
 	logger.Info("Authorized")
 
-	return NewService(bot), nil
+	return NewService(bot, logger), nil
 }
 
-func NewService2(bot BotAPI, logger *logrus.Entry) *Service {
-	return &Service{logger: logger, bot: bot}
-}
-func NewService(bot BotAPI) *Service {
-	logger := logrus.WithField("name", "telegram.Service")
+func NewService(bot BotAPI, logger *logrus.Entry) *Service {
 	return &Service{logger: logger, bot: bot}
 }
 

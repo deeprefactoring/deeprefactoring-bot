@@ -31,6 +31,15 @@ func (bot *FakeBot) LastMessageConfig() tgbotapi.MessageConfig {
 	return bot.LastChattable().(tgbotapi.MessageConfig)
 }
 
+func ServiceWithLogger(bot deeprefactoringbot.BotAPI) (*deeprefactoringbot.Service, *test.Hook) {
+	logger, hook := test.NewNullLogger()
+	logger.Level = logrus.DebugLevel
+
+	service := deeprefactoringbot.NewService(bot, logger.WithField("name", "logger"))
+
+	return service, hook
+}
+
 func TestService_Listen(t *testing.T) {
 	ch := make(chan tgbotapi.Update, 100)
 
@@ -52,10 +61,7 @@ func TestService_Listen(t *testing.T) {
 		},
 	}
 
-	logger, hook := test.NewNullLogger()
-	logger.Level = logrus.DebugLevel
-
-	service := deeprefactoringbot.NewService2(bot, logger.WithField("name", "logger"))
+	service, hook := ServiceWithLogger(bot)
 	go close(ch)
 	service.Listen()
 
@@ -86,7 +92,7 @@ func TestService_HandleUpdateFiltered(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 			bot := &FakeBot{}
 
-			service := deeprefactoringbot.NewService(bot)
+			service, _ := ServiceWithLogger(bot)
 			for _, update := range c.updates {
 				service.HandleUpdate(&update)
 			}
@@ -99,7 +105,7 @@ func TestService_HandleUpdateFiltered(t *testing.T) {
 func TestService_NextMeetup(t *testing.T) {
 	bot := &FakeBot{}
 
-	service := deeprefactoringbot.NewService(bot)
+	service, _ := ServiceWithLogger(bot)
 	service.HandleUpdate(&tgbotapi.Update{
 		Message: &tgbotapi.Message{
 			Chat: &tgbotapi.Chat{
@@ -126,7 +132,7 @@ func applyUsername(slice []string, username string) []string {
 func TestService_RollMessage(t *testing.T) {
 	bot := &FakeBot{}
 
-	service := deeprefactoringbot.NewService(bot)
+	service, _ := ServiceWithLogger(bot)
 
 	user := tgbotapi.User{UserName: "Hoi"}
 
@@ -151,7 +157,7 @@ func TestService_RollMessage(t *testing.T) {
 func TestService_Greeting(t *testing.T) {
 	bot := &FakeBot{}
 
-	service := deeprefactoringbot.NewService(bot)
+	service, _ := ServiceWithLogger(bot)
 
 	user := tgbotapi.User{UserName: "Hoi"}
 
@@ -175,7 +181,7 @@ func TestService_Greeting(t *testing.T) {
 func TestService_GoAwayMessage(t *testing.T) {
 	bot := &FakeBot{}
 
-	service := deeprefactoringbot.NewService(bot)
+	service, _ := ServiceWithLogger(bot)
 
 	user := tgbotapi.User{UserName: "Hoi"}
 
