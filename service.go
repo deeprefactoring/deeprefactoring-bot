@@ -2,8 +2,8 @@ package deeprefactoringbot
 
 import (
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/sirupsen/logrus"
 )
 
 type Service struct {
