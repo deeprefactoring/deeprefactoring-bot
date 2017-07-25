@@ -3,13 +3,15 @@ package deeprefactoringbot_test
 import (
 	"github.com/deeprefactoring/deeprefactoring-bot"
 	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 type FakeBot struct {
 	SentMessages []tgbotapi.Chattable
-	Channel      <-chan tgbotapi.Update
+	Channel      chan tgbotapi.Update
 }
 
 func (bot *FakeBot) GetUpdatesChan(config tgbotapi.UpdateConfig) (<-chan tgbotapi.Update, error) {
@@ -27,6 +29,46 @@ func (bot *FakeBot) LastChattable() tgbotapi.Chattable {
 
 func (bot *FakeBot) LastMessageConfig() tgbotapi.MessageConfig {
 	return bot.LastChattable().(tgbotapi.MessageConfig)
+}
+
+func TestService_Listen(t *testing.T) {
+	ch := make(chan tgbotapi.Update, 100)
+
+	bot := &FakeBot{Channel: ch}
+
+	user := tgbotapi.User{UserName: "user1"}
+
+	ch <- tgbotapi.Update{
+		Message: &tgbotapi.Message{
+			Text: "foo",
+			From: &user,
+		},
+	}
+
+	ch <- tgbotapi.Update{
+		Message: &tgbotapi.Message{
+			Text: "bar",
+			From: &user,
+		},
+	}
+
+	logger, hook := test.NewNullLogger()
+	logger.Level = logrus.DebugLevel
+
+	service := deeprefactoringbot.NewService2(bot, logger.WithField("name", "logger"))
+	go close(ch)
+	service.Listen()
+
+	entries := hook.AllEntries()
+	assert.Equal(t, 2, len(entries))
+
+	fooMessage := entries[0]
+	assert.Equal(t, "new update", fooMessage.Message)
+	assert.Equal(t, "foo", fooMessage.Data["Message"].(*tgbotapi.Message).Text)
+
+	barMessage := entries[1]
+	assert.Equal(t, "new update", barMessage.Message)
+	assert.Equal(t, "bar", barMessage.Data["Message"].(*tgbotapi.Message).Text)
 }
 
 func TestService_HandleUpdateFiltered(t *testing.T) {

@@ -32,6 +32,9 @@ func NewServiceFromTgbotapi(apiKey string) (*Service, error) {
 	return NewService(bot), nil
 }
 
+func NewService2(bot BotAPI, logger *logrus.Entry) *Service {
+	return &Service{logger: logger, bot: bot}
+}
 func NewService(bot BotAPI) *Service {
 	logger := logrus.WithField("name", "telegram.Service")
 	return &Service{logger: logger, bot: bot}
@@ -54,7 +57,7 @@ func (s *Service) Listen() {
 
 func (s *Service) HandleUpdate(update *tgbotapi.Update) {
 	s.logger.WithFields(logrus.Fields{
-		"update":            update,
+		"Update":            update,
 		"ChannelPost":       update.ChannelPost,
 		"Message":           update.Message,
 		"EditedChannelPost": update.EditedChannelPost,
