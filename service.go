@@ -36,17 +36,18 @@ func (s *Service) Listen() {
 	updates, _ := s.bot.GetUpdatesChan(updateConfig)
 
 	for update := range updates {
-		s.logger.WithFields(logrus.Fields{
-			"update":            update,
-			"ChannelPost":       update.ChannelPost,
-			"Message":           update.Message,
-			"EditedChannelPost": update.EditedChannelPost,
-		}).Debug("new update")
-		s.handleUpdate(&update)
+		s.HandleUpdate(&update)
 	}
 }
 
-func (s *Service) handleUpdate(update *tgbotapi.Update) {
+func (s *Service) HandleUpdate(update *tgbotapi.Update) {
+	s.logger.WithFields(logrus.Fields{
+		"update":            update,
+		"ChannelPost":       update.ChannelPost,
+		"Message":           update.Message,
+		"EditedChannelPost": update.EditedChannelPost,
+	}).Debug("new update")
+
 	message := update.Message
 	if message == nil {
 		s.logger.Debug("nil message")

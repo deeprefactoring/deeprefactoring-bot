@@ -60,17 +60,21 @@ const nextMeetupMessage = "Анонс следующего митапа: http://
 
 var randomiser = rand.New(rand.NewSource(time.Now().Unix()))
 
+func randomMessageFromSlice(slice []string) string {
+	return slice[randomiser.Intn(len(slice))]
+}
+
 func ReplaceUsername(text, username string) string {
 	return strings.Replace(text, "{username}", fmt.Sprintf("@%s", username), -1)
 }
 
 func RandomGreeting(username string) string {
-	text := greetingMessages[randomiser.Intn(len(greetingMessages))]
+	text := randomMessageFromSlice(greetingMessages)
 	return ReplaceUsername(text, username)
 }
 
 func RandomCurse(username string) string {
-	text := curseMessages[randomiser.Intn(len(curseMessages))]
+	text := randomMessageFromSlice(curseMessages)
 	return ReplaceUsername(text, username)
 }
 
@@ -79,5 +83,5 @@ func NextMeetupInfo() string {
 }
 
 func RollMessage() string {
-	return rollMessages[randomiser.Intn(len(rollMessages))]
+	return randomMessageFromSlice(rollMessages)
 }
