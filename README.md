@@ -23,8 +23,8 @@ git clone github.com/deeprefactoring/deeprefactoring-bot
 * Build `make build`, produces `deeprefactoring-bot` binary
 * Run tests `make test`
 
-<span name="f1">[1]:</span> Famous deep refactoring collaborator Anton Chikin in Telegram [↩](#a1)
+<i name="f1">[1]:</i> Famous deep refactoring collaborator Anton Chikin in Telegram [↩](#a1)
 <br>
-<span name="f2">[2]:</span> https://telegram.me/BotFather [↩](#a2)
+<i name="f2">[2]:</i> https://telegram.me/BotFather [↩](#a2)
 <br>
-<span name="f3">[3]:</span> https://golang.org/dl [↩](#a3)
+<i name="f3">[3]:</i> https://golang.org/dl [↩](#a3)
