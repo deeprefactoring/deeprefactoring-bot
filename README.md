@@ -9,16 +9,20 @@ This is a community bot of Глубокий Рефакторинг (Deep Refacto
 * In telegram open dialog with [@BotFather][2]
 * Follow instructions there to create bot and obtain api_key
 
-## Code preparation
-* Install [Go 1.7][3]
+## Contribution
+* Install [Go 1.8+][3]
 * Download code to `$GOPATH/src/github.com/deeprefactoring/deeprefactoring-bot` folder:
 ```bash
-go get github.com/deeprefactoring/deeprefactoring-bot
+mkdir -p github.com/deeprefactoring
+cd github.com/deeprefactoring
+git clone github.com/deeprefactoring/deeprefactoring-bot
 ```
 * Copy `config.yml.example` to `config.yml`
 * Use api_key from previous steps in `config.yaml`
-* run by calling `go run ./cmd/app/main.go`
+* Install dependencies `make deps`
+* Build `make build`, produces `deeprefactoring-bot` binary
+* Run tests `make test`
 
-[1]: https://github.com/achikin
+[1]: Famous deep refactoring collaborator Anton Chikin nick in Telegram
 [2]: https://telegram.me/BotFather
 [3]: https://golang.org/dl
