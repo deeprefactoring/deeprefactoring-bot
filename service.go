@@ -6,12 +6,19 @@ import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
+// Generic (joke) bot API interface to use in tests,
+// consider tgbotapi as implementation
+type BotAPI interface {
+	GetUpdatesChan(config tgbotapi.UpdateConfig) (<-chan tgbotapi.Update, error)
+	Send(c tgbotapi.Chattable) (tgbotapi.Message, error)
+}
+
 type Service struct {
-	bot    *tgbotapi.BotAPI
+	bot    BotAPI
 	logger *logrus.Entry
 }
 
-func NewService(apiKey string) (*Service, error) {
+func NewServiceFromTgbotapi(apiKey string) (*Service, error) {
 	logger := logrus.WithField("name", "telegram.Service")
 
 	bot, err := tgbotapi.NewBotAPI(apiKey)
@@ -22,7 +29,12 @@ func NewService(apiKey string) (*Service, error) {
 
 	logger.Info("Authorized")
 
-	return &Service{logger: logger, bot: bot}, nil
+	return NewService(bot), nil
+}
+
+func NewService(bot BotAPI) *Service {
+	logger := logrus.WithField("name", "telegram.Service")
+	return &Service{logger: logger, bot: bot}
 }
 
 func (s *Service) Listen() {

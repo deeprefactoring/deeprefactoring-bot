@@ -42,7 +42,7 @@ func main() {
 
 	initLogger(config.Application.LogLevel)
 
-	service, err := deeprefactoringbot.NewService(config.Telegram.ApiKey)
+	service, err := deeprefactoringbot.NewServiceFromTgbotapi(config.Telegram.ApiKey)
 	if err != nil {
 		log.Fatal(err)
 	}
