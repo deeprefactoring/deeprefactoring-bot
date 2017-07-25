@@ -2,7 +2,7 @@ package deeprefactoringbot
 
 import (
 	"fmt"
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 )
 

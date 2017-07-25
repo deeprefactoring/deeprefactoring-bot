@@ -1,7 +1,7 @@
 package deeprefactoringbot_test
 
 import (
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/deeprefactoring/deeprefactoring-bot"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v2"
