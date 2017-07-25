@@ -2,15 +2,15 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/deeprefactoring/deeprefactoring-bot)](https://goreportcard.com/report/github.com/deeprefactoring/deeprefactoring-bot)
 
 # Introduction
-This is a community bot of Глубокий Рефакторинг (Deep Refactoring). It can handle various things including producing sarcastic comments on every [@achikin][1] post (not enabled by default).
+This is a community bot of Глубокий Рефакторинг (Deep Refactoring). It can handle various things including producing sarcastic comments on every [@achikin]<sup name="a1">[1](#f1)</sup> post (not enabled by default).
 
 # Development guideline
 ## Create bot api_key
-* In telegram open dialog with [@BotFather][2]
+* In telegram open dialog with [@BotFather]<sup name="a1">[2](#f2)</sup>
 * Follow instructions there to create bot and obtain api_key
 
 ## Contribution
-* Install [Go 1.8+][3]
+* Install [Go 1.8+]<sup name="a1">[3](#f3)</sup>
 * Download code to `$GOPATH/src/github.com/deeprefactoring/deeprefactoring-bot` folder:
 ```bash
 mkdir -p github.com/deeprefactoring
@@ -23,6 +23,8 @@ git clone github.com/deeprefactoring/deeprefactoring-bot
 * Build `make build`, produces `deeprefactoring-bot` binary
 * Run tests `make test`
 
-[1]: Famous deep refactoring collaborator Anton Chikin nick in Telegram
-[2]: https://telegram.me/BotFather
-[3]: https://golang.org/dl
+<span name="f1">[1]:</span> Famous deep refactoring collaborator Anton Chikin in Telegram [↩](#a1)
+<br>
+<span name="f2">[2]:</span> https://telegram.me/BotFather [↩](#a2)
+<br>
+<span name="f3">[3]:</span> https://golang.org/dl [↩](#a3)
