@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/Sirupsen/logrus"
 	"github.com/deeprefactoring/deeprefactoring-bot"
+	"github.com/sirupsen/logrus"
 	"log"
 	"os"
 )
