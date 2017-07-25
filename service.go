@@ -40,7 +40,6 @@ func (s *Service) Listen() {
 			"update":            update,
 			"ChannelPost":       update.ChannelPost,
 			"Message":           update.Message,
-			"NewChatMember":     update.Message.NewChatMember,
 			"EditedChannelPost": update.EditedChannelPost,
 		}).Debug("new update")
 		s.handleUpdate(&update)
