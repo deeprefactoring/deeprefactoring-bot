@@ -6,11 +6,11 @@ This is a community bot of Глубокий Рефакторинг (Deep Refacto
 
 # Development guideline
 ## Create bot api_key
-* In telegram open dialog with [@BotFather]<sup name="a1">[2](#f2)</sup>
+* In telegram open dialog with [@BotFather]<sup name="a2">[2](#f2)</sup>
 * Follow instructions there to create bot and obtain api_key
 
 ## Contribution
-* Install [Go 1.8+]<sup name="a1">[3](#f3)</sup>
+* Install [Go 1.8+]<sup name="a3">[3](#f3)</sup>
 * Download code to `$GOPATH/src/github.com/deeprefactoring/deeprefactoring-bot` folder:
 ```bash
 mkdir -p github.com/deeprefactoring
