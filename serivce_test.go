@@ -166,6 +166,31 @@ func TestService_Greeting(t *testing.T) {
 			Chat: &tgbotapi.Chat{
 				ID: 1,
 			},
+			Text: "/greeting",
+			From: &user,
+		},
+	})
+
+	assert.Equal(t, len(bot.SentMessages), 1)
+	assert.Contains(
+		t,
+		applyUsername(deeprefactoringbot.GreetingMessages, user.UserName),
+		bot.LastMessageConfig().Text,
+	)
+}
+
+func TestService_Greeting2(t *testing.T) {
+	bot := &FakeBot{}
+
+	service, _ := ServiceWithLogger(bot)
+
+	user := tgbotapi.User{UserName: "Hoi"}
+
+	service.HandleUpdate(&tgbotapi.Update{
+		Message: &tgbotapi.Message{
+			Chat: &tgbotapi.Chat{
+				ID: 1,
+			},
 			NewChatMember: &user,
 		},
 	})
@@ -200,4 +225,24 @@ func TestService_GoAwayMessage(t *testing.T) {
 		applyUsername(deeprefactoringbot.CurseMessages, user.UserName),
 		bot.LastMessageConfig().Text,
 	)
+}
+
+func TestService_Undefined(t *testing.T) {
+	bot := &FakeBot{}
+
+	service, _ := ServiceWithLogger(bot)
+
+	user := tgbotapi.User{UserName: "Hoi"}
+
+	service.HandleUpdate(&tgbotapi.Update{
+		Message: &tgbotapi.Message{
+			Chat: &tgbotapi.Chat{
+				ID: 1,
+			},
+			Text: "/undefined",
+			From: &user,
+		},
+	})
+
+	assert.Equal(t, len(bot.SentMessages), 0)
 }
