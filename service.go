@@ -6,12 +6,19 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// Generic (joke) bot API interface to use in tests,
+// consider tgbotapi as implementation
+type BotAPI interface {
+	GetUpdatesChan(config tgbotapi.UpdateConfig) (<-chan tgbotapi.Update, error)
+	Send(c tgbotapi.Chattable) (tgbotapi.Message, error)
+}
+
 type Service struct {
-	bot    *tgbotapi.BotAPI
+	bot    BotAPI
 	logger *logrus.Entry
 }
 
-func NewService(apiKey string) (*Service, error) {
+func NewServiceFromTgbotapi(apiKey string) (*Service, error) {
 	logger := logrus.WithField("name", "telegram.Service")
 
 	bot, err := tgbotapi.NewBotAPI(apiKey)
@@ -22,7 +29,11 @@ func NewService(apiKey string) (*Service, error) {
 
 	logger.Info("Authorized")
 
-	return &Service{logger: logger, bot: bot}, nil
+	return NewService(bot, logger), nil
+}
+
+func NewService(bot BotAPI, logger *logrus.Entry) *Service {
+	return &Service{logger: logger, bot: bot}
 }
 
 func (s *Service) Listen() {
@@ -36,17 +47,18 @@ func (s *Service) Listen() {
 	updates, _ := s.bot.GetUpdatesChan(updateConfig)
 
 	for update := range updates {
-		s.logger.WithFields(logrus.Fields{
-			"update":            update,
-			"ChannelPost":       update.ChannelPost,
-			"Message":           update.Message,
-			"EditedChannelPost": update.EditedChannelPost,
-		}).Debug("new update")
-		s.handleUpdate(&update)
+		s.HandleUpdate(&update)
 	}
 }
 
-func (s *Service) handleUpdate(update *tgbotapi.Update) {
+func (s *Service) HandleUpdate(update *tgbotapi.Update) {
+	s.logger.WithFields(logrus.Fields{
+		"Update":            update,
+		"ChannelPost":       update.ChannelPost,
+		"Message":           update.Message,
+		"EditedChannelPost": update.EditedChannelPost,
+	}).Debug("new update")
+
 	message := update.Message
 	if message == nil {
 		s.logger.Debug("nil message")

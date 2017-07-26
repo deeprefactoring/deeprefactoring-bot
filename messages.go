@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-var greetingMessages = []string{
+var GreetingMessages = []string{
 	"{username}, деплоить докером не бросим",
 	"Питон лучше руби",
 	"Вечер в коворкинг, {username}, деплой в радость, ролбек в сладость",
@@ -19,14 +19,14 @@ var greetingMessages = []string{
 	"1 1111 11111111 11111111",
 }
 
-var curseMessages = []string{
+var CurseMessages = []string{
 	"{username}, мы не будем скучать",
 	"наверное {username} фронтэндер",
 	"Press F to Pay Respects for {username}",
 	"Мы тебя тоже не любим",
 }
 
-var rollMessages = []string{
+var RollMessages = []string{
 	"Живые форки php4",
 	"Переходные процессы в проектах однодневках",
 	"Статическая типизация аналогов баша",
@@ -60,17 +60,21 @@ const nextMeetupMessage = "Анонс следующего митапа: http://
 
 var randomiser = rand.New(rand.NewSource(time.Now().Unix()))
 
+func randomMessageFromSlice(slice []string) string {
+	return slice[randomiser.Intn(len(slice))]
+}
+
 func ReplaceUsername(text, username string) string {
 	return strings.Replace(text, "{username}", fmt.Sprintf("@%s", username), -1)
 }
 
 func RandomGreeting(username string) string {
-	text := greetingMessages[randomiser.Intn(len(greetingMessages))]
+	text := randomMessageFromSlice(GreetingMessages)
 	return ReplaceUsername(text, username)
 }
 
 func RandomCurse(username string) string {
-	text := curseMessages[randomiser.Intn(len(curseMessages))]
+	text := randomMessageFromSlice(CurseMessages)
 	return ReplaceUsername(text, username)
 }
 
@@ -79,5 +83,5 @@ func NextMeetupInfo() string {
 }
 
 func RollMessage() string {
-	return rollMessages[randomiser.Intn(len(rollMessages))]
+	return randomMessageFromSlice(RollMessages)
 }
