@@ -74,6 +74,8 @@ func (s *Service) HandleUpdate(update *tgbotapi.Update) {
 			s.NextMeetup(update)
 		case "roll":
 			s.RollMessage(update)
+    case "stop":
+      s.Hammertime()
 		default:
 			s.logger.WithFields(logrus.Fields{
 				"command": message.Command(),

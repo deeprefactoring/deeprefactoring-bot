@@ -58,6 +58,7 @@ var RollMessages = []string{
 }
 
 const nextMeetupMessage = "Анонс следующего митапа: http://deeprefactoring.ru/meetup/next/"
+const hammertimeMessage = "https://ci.memecdn.com/2501287.gif"
 
 var randomiser = rand.New(rand.NewSource(time.Now().Unix()))
 
@@ -81,6 +82,10 @@ func RandomCurse(username string) string {
 
 func NextMeetupInfo() string {
 	return nextMeetupMessage
+}
+
+func Hammertime() string {
+  return hammertimeMessage
 }
 
 func RollMessage() string {
