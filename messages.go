@@ -85,7 +85,7 @@ func NextMeetupInfo() string {
 }
 
 func Hammertime() string {
-  return hammertimeMessage
+	return hammertimeMessage
 }
 
 func RollMessage() string {
