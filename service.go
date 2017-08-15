@@ -118,3 +118,9 @@ func (s *Service) RollMessage(update *tgbotapi.Update) error {
 	text := RollMessage()
 	return s.Send(update, text)
 }
+
+func (s *Service) Hammertime(update *tgbotapi.Update) error {
+  text := HammertimeInfo()
+  return s.Send(update, text)
+}
+

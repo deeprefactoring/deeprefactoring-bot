@@ -84,7 +84,7 @@ func NextMeetupInfo() string {
 	return nextMeetupMessage
 }
 
-func Hammertime() string {
+func HammertimeInfo() string {
 	return hammertimeMessage
 }
 
