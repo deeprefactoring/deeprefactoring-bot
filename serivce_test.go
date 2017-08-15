@@ -118,7 +118,7 @@ func TestService_NextMeetup(t *testing.T) {
 	assert.Equal(t, len(bot.SentMessages), 1)
 	assert.Contains(t, bot.LastMessageConfig().Text, "Анонс следующего митапа")
 }
-func TestService_NextMeetup(t *testing.T) {
+func TestService_Hammertime(t *testing.T) {
 	bot := &FakeBot{}
 
 	service, _ := ServiceWithLogger(bot)
