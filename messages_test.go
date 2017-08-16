@@ -23,6 +23,10 @@ func TestReplaceUsername(t *testing.T) {
 	}
 }
 
+func TestHammertime(t *testing.T) {
+	assert.Equal(t, deeprefactoringbot.HammertimeInfo(), "https://ci.memecdn.com/2501287.gif")
+}
+
 func TestRandomCurse(t *testing.T) {
 	assert.NotEqual(t, deeprefactoringbot.RandomCurse("x"), "")
 }

@@ -118,6 +118,22 @@ func TestService_NextMeetup(t *testing.T) {
 	assert.Equal(t, len(bot.SentMessages), 1)
 	assert.Contains(t, bot.LastMessageConfig().Text, "Анонс следующего митапа")
 }
+func TestService_Hammertime(t *testing.T) {
+	bot := &FakeBot{}
+
+	service, _ := ServiceWithLogger(bot)
+	service.HandleUpdate(&tgbotapi.Update{
+		Message: &tgbotapi.Message{
+			Chat: &tgbotapi.Chat{
+				ID: 1,
+			},
+			Text: "/stop",
+		},
+	})
+
+	assert.Equal(t, len(bot.SentMessages), 1)
+	assert.Contains(t, bot.LastMessageConfig().Text, "https://ci.memecdn.com/2501287.gif")
+}
 
 func applyUsername(slice []string, username string) []string {
 	res := make([]string, len(slice))

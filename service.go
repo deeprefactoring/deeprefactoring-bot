@@ -74,6 +74,8 @@ func (s *Service) HandleUpdate(update *tgbotapi.Update) {
 			s.NextMeetup(update)
 		case "roll":
 			s.RollMessage(update)
+		case "stop":
+			s.Hammertime(update)
 		default:
 			s.logger.WithFields(logrus.Fields{
 				"command": message.Command(),
@@ -114,5 +116,10 @@ func (s *Service) NextMeetup(update *tgbotapi.Update) error {
 
 func (s *Service) RollMessage(update *tgbotapi.Update) error {
 	text := RollMessage()
+	return s.Send(update, text)
+}
+
+func (s *Service) Hammertime(update *tgbotapi.Update) error {
+	text := HammertimeInfo()
 	return s.Send(update, text)
 }
