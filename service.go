@@ -69,7 +69,7 @@ func (s *Service) HandleUpdate(update *tgbotapi.Update) {
 		command := message.Command()
 		switch command {
 		case "greeting":
-			s.Greeting(update, update.Message.From.UserName)
+			s.Greeting(update, update.Message.From.String())
 		case "nextmeetup":
 			s.NextMeetup(update)
 		case "roll":
@@ -85,11 +85,11 @@ func (s *Service) HandleUpdate(update *tgbotapi.Update) {
 	}
 
 	if update.Message.NewChatMember != nil {
-		s.Greeting(update, update.Message.NewChatMember.UserName)
+		s.Greeting(update, update.Message.NewChatMember.String())
 	}
 
 	if update.Message.LeftChatMember != nil {
-		s.GoAwayMessage(update, update.Message.LeftChatMember.UserName)
+		s.GoAwayMessage(update, update.Message.LeftChatMember.String())
 	}
 }
 
