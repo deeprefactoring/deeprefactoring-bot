@@ -3,8 +3,8 @@ import:
 - package: github.com/go-telegram-bot-api/telegram-bot-api
   version: ^4.6.0
 - package: github.com/sirupsen/logrus
-  version: ^1.0.2
-  repo: git@github.com:sirupsen/logrus.git
+  version: ^1.0.3
+  repo: https://github.com/sirupsen/logrus.git
   vcs: git
 - package: gopkg.in/yaml.v2
 testImport:

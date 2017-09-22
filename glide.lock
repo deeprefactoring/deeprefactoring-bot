@@ -1,18 +1,25 @@
-hash: c7e5e726b258a301cee12d58024fcf86777eecabc1cc49d4ec29c985fcc8e0a6
-updated: 2017-07-26T00:49:51.75122864+03:00
+hash: 0bff323758f24c93da5615cc962928c1f9c9b486f3763578381fbc53a080ed12
+updated: 2017-09-22T17:49:44.663525374+03:00
 imports:
 - name: github.com/go-telegram-bot-api/telegram-bot-api
   version: 0a57807db79efce7f6719fbb2c0e0f83fda79aec
 - name: github.com/sirupsen/logrus
-  version: a3f95b5c423586578a4e099b11a46c2479628cac
-  repo: git@github.com:sirupsen/logrus.git
+  version: f006c2ac4710855cf0f916dd6b77acf6b048dc6e
+  repo: https://github.com/sirupsen/logrus.git
   vcs: git
+  subpackages:
+  - hooks/test
 - name: github.com/technoweenie/multipartstreamer
   version: a90a01d73ae432e2611d178c18367fbaa13e0154
+- name: golang.org/x/crypto
+  version: 7d9177d70076375b9a59c8fde23d52d9c4a7ecd5
+  subpackages:
+  - ssh/terminal
 - name: golang.org/x/sys
   version: d75a52659825e75fff6158388dddc6a5b04f9ba5
   subpackages:
   - unix
+  - windows
 - name: gopkg.in/yaml.v2
   version: a5b47d31c556af34a302ce5d659e6fea44d90de0
 testImports:
@@ -24,8 +31,6 @@ testImports:
   version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
   subpackages:
   - difflib
-- name: github.com/Sirupsen/logrus
-  version: a3f95b5c423586578a4e099b11a46c2479628cac
 - name: github.com/stretchr/testify
   version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
   subpackages:
