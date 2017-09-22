@@ -30,16 +30,9 @@ vet:
 lint: format-check vet
 
 .PHONY: build-static
-build-static:
-	go build -v -x -race \
-	    -ldflags "-linkmode external -extldflags -static $(VERSION_FLAGS)" \
-	    -o $(BINARY_NAME) \
-	    $(PACKAGE)/cmd/app
-
-.PHONY: build
 build:
-	go build -v \
-	    -ldflags "$(VERSION_FLAGS)" \
+	go build -v -x \
+	    -ldflags "-extldflags -static $(VERSION_FLAGS)" \
 	    -o $(BINARY_NAME) \
 	    $(PACKAGE)/cmd/app
 
@@ -58,4 +51,4 @@ bench:
 	    $(PACKAGE)
 
 .PHONY: package
-package: lint deps test build-static
+package: lint deps test build
