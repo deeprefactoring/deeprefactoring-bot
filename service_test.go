@@ -14,7 +14,7 @@ type FakeBot struct {
 	Channel      chan tgbotapi.Update
 }
 
-func (bot *FakeBot) GetUpdatesChan(config tgbotapi.UpdateConfig) (<-chan tgbotapi.Update, error) {
+func (bot *FakeBot) GetUpdatesChan(config tgbotapi.UpdateConfig) (tgbotapi.UpdatesChannel, error) {
 	return bot.Channel, nil
 }
 
@@ -207,7 +207,7 @@ func TestService_Greeting2(t *testing.T) {
 			Chat: &tgbotapi.Chat{
 				ID: 1,
 			},
-			NewChatMember: &user,
+			NewChatMembers: &[]tgbotapi.User{user},
 		},
 	})
 

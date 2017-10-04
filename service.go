@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/sirupsen/logrus"
+	"net/http"
+	"time"
 )
 
 // Generic (joke) bot API interface to use in tests,
 // consider tgbotapi as implementation
 type BotAPI interface {
-	GetUpdatesChan(config tgbotapi.UpdateConfig) (<-chan tgbotapi.Update, error)
+	GetUpdatesChan(config tgbotapi.UpdateConfig) (tgbotapi.UpdatesChannel, error)
 	Send(c tgbotapi.Chattable) (tgbotapi.Message, error)
 }
 
@@ -21,10 +23,15 @@ type Service struct {
 func NewServiceFromTgbotapi(apiKey string) (*Service, error) {
 	logger := logrus.WithField("name", "telegram.Service")
 
-	bot, err := tgbotapi.NewBotAPI(apiKey)
+	bot, err := tgbotapi.NewBotAPIWithClient(
+		apiKey,
+		&http.Client{
+			Timeout: time.Duration(60) * time.Second,
+		},
+	)
 	if err != nil {
 		logger.WithError(err).Error("failed to connect api")
-		return nil, fmt.Errorf("Fails to connect API, err: %s", err)
+		return nil, fmt.Errorf("fails to connect API, err: %s", err)
 	}
 
 	logger.Info("Authorized")
@@ -84,8 +91,10 @@ func (s *Service) HandleUpdate(update *tgbotapi.Update) {
 		}
 	}
 
-	if update.Message.NewChatMember != nil {
-		s.Greeting(update, update.Message.NewChatMember.String())
+	if update.Message.NewChatMembers != nil {
+		for _, user := range *update.Message.NewChatMembers {
+			s.Greeting(update, user.String())
+		}
 	}
 
 	if update.Message.LeftChatMember != nil {

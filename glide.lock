@@ -1,12 +1,10 @@
-hash: 0bff323758f24c93da5615cc962928c1f9c9b486f3763578381fbc53a080ed12
-updated: 2017-09-22T17:49:44.663525374+03:00
+hash: d25c8fef1c193296203834aa0cfe233add904412fd29b014675b13df59aff8b0
+updated: 2017-10-04T12:06:10.712035353+03:00
 imports:
 - name: github.com/go-telegram-bot-api/telegram-bot-api
-  version: 0a57807db79efce7f6719fbb2c0e0f83fda79aec
+  version: 9dda67c714e5e2cba837b28a0172cca2ed54f078
 - name: github.com/sirupsen/logrus
   version: f006c2ac4710855cf0f916dd6b77acf6b048dc6e
-  repo: https://github.com/sirupsen/logrus.git
-  vcs: git
   subpackages:
   - hooks/test
 - name: github.com/technoweenie/multipartstreamer
@@ -16,12 +14,12 @@ imports:
   subpackages:
   - ssh/terminal
 - name: golang.org/x/sys
-  version: d75a52659825e75fff6158388dddc6a5b04f9ba5
+  version: 2320a9c15898af1b1b24f99700d5c1e957f9d8cf
   subpackages:
   - unix
   - windows
 - name: gopkg.in/yaml.v2
-  version: a5b47d31c556af34a302ce5d659e6fea44d90de0
+  version: eb3733d160e74a9c7e442f435eb3bea458e1d19f
 testImports:
 - name: github.com/davecgh/go-spew
   version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
