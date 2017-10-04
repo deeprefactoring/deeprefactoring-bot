@@ -1,11 +1,8 @@
 package: github.com/deeprefactoring/deeprefactoring-bot
 import:
 - package: github.com/go-telegram-bot-api/telegram-bot-api
-  version: ^4.6.0
 - package: github.com/sirupsen/logrus
   version: ^1.0.3
-  repo: https://github.com/sirupsen/logrus.git
-  vcs: git
 - package: gopkg.in/yaml.v2
 testImport:
 - package: github.com/stretchr/testify
