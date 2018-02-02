@@ -56,6 +56,7 @@ var RollMessages = []string{
 	"Jira и другие способы почувстовать себя плохо",
 	"Выход из vim народными средствами",
 	"Рациональны предложения менеджеру, которые ты никогда не озвучишь",
+	"Расчет 6%% на Spring Boot или патент?",
 }
 
 const nextMeetupMessage = "Анонс следующего митапа: http://deeprefactoring.ru/meetup/next/"
