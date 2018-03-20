@@ -19,6 +19,7 @@ var GreetingMessages = []string{
 	"raise Exception('hello {username}')",
 	"Лучший воронежский чат о рефакторинге привествует тебя, {username}",
 	"1 1111 11111111 11111111",
+	"Какой JS фреймворк ты предпочитаешь, {username}?",
 }
 
 var CurseMessages = []string{
@@ -57,6 +58,7 @@ var RollMessages = []string{
 	"Выход из vim народными средствами",
 	"Рациональны предложения менеджеру, которые ты никогда не озвучишь",
 	"Расчет 6%% на Spring Boot или патент?",
+	"Че, пацаны, фронтенд?"
 }
 
 const nextMeetupMessage = "Анонс следующего митапа: http://deeprefactoring.ru/meetup/next/"
