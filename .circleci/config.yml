@@ -22,7 +22,7 @@ jobs:
             wget https://github.com/golang/dep/releases/download/${DEP_VERSION}/dep-linux-amd64 -O release/dep-linux-amd64
             sha256sum -c checksum
             chmod +x release/dep-linux-amd64
-            mv release/dep-linux-amd64 /usr/bin/dep
+            sudo mv release/dep-linux-amd64 /usr/bin/dep
             cd ~/
             rm -rf /tmp/dep
 
