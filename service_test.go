@@ -108,6 +108,9 @@ func TestService_NextMeetup(t *testing.T) {
 	service, _ := ServiceWithLogger(bot)
 	service.HandleUpdate(&tgbotapi.Update{
 		Message: &tgbotapi.Message{
+			Entities: &[]tgbotapi.MessageEntity{
+				{Type: "bot_command", Offset: 0, Length: 11},
+			},
 			Chat: &tgbotapi.Chat{
 				ID: 1,
 			},
@@ -124,6 +127,9 @@ func TestService_Hammertime(t *testing.T) {
 	service, _ := ServiceWithLogger(bot)
 	service.HandleUpdate(&tgbotapi.Update{
 		Message: &tgbotapi.Message{
+			Entities: &[]tgbotapi.MessageEntity{
+				{Type: "bot_command", Offset: 0, Length: 5},
+			},
 			Chat: &tgbotapi.Chat{
 				ID: 1,
 			},
@@ -154,6 +160,9 @@ func TestService_RollMessage(t *testing.T) {
 
 	service.HandleUpdate(&tgbotapi.Update{
 		Message: &tgbotapi.Message{
+			Entities: &[]tgbotapi.MessageEntity{
+				{Type: "bot_command", Offset: 0, Length: 5},
+			},
 			Chat: &tgbotapi.Chat{
 				ID: 1,
 			},
@@ -179,6 +188,9 @@ func TestService_Greeting(t *testing.T) {
 
 	service.HandleUpdate(&tgbotapi.Update{
 		Message: &tgbotapi.Message{
+			Entities: &[]tgbotapi.MessageEntity{
+				{Type: "bot_command", Offset: 0, Length: 9},
+			},
 			Chat: &tgbotapi.Chat{
 				ID: 1,
 			},

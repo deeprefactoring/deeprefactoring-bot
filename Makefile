@@ -29,7 +29,7 @@ vet:
 .PHONY: lint
 lint: format-check vet
 
-.PHONY: build-static
+.PHONY: build
 build:
 	go build -v -x \
 	    -ldflags "-extldflags -static $(VERSION_FLAGS)" \
