@@ -5,7 +5,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/golang:1.8
+      - image: circleci/golang:1.10.1
 
     working_directory: /go/src/github.com/deeprefactoring/deeprefactoring-bot
     steps:
@@ -14,13 +14,17 @@ jobs:
       - run:
           name: Install glide
           environment:
-            GLIDE_VERSION: v0.12.3
+            DEP_VERSION: v0.4.1
           command: |
-            cd /tmp
-            wget https://github.com/Masterminds/glide/releases/download/${GLIDE_VERSION}/glide-${GLIDE_VERSION}-linux-amd64.tar.gz
-            tar xzf glide-${GLIDE_VERSION}-linux-amd64.tar.gz
-            sudo -u root mv linux-amd64/glide /usr/bin/
-            rm -rf /tmp/*
+            mkdir -p /tmp/dep/release
+            cd /tmp/dep
+            wget https://github.com/golang/dep/releases/download/${DEP_VERSION}/dep-linux-amd64.sha256 -O checksum
+            wget https://github.com/golang/dep/releases/download/${DEP_VERSION}/dep-linux-amd64 -O release/dep-linux-amd64
+            sha256sum -c checksum
+            chmod +x release/dep-linux-amd64
+            sudo mv release/dep-linux-amd64 /usr/bin/dep
+            cd ~/
+            rm -rf /tmp/dep
 
       - run: make package
 
