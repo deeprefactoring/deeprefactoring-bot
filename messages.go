@@ -24,7 +24,7 @@ var GreetingMessages = []string{
 	"Мыло с фронтенда или хлеб с бэкенда, {username}?",
 	"{username}, табы или пробелы?",
 	"{username}, vim или emacs?",
-	"{username}> (или Clojure Kotlin)?",
+	"Добро пожаловать в чат токсичных разработчиков, {username}",
 	"Пока ты сидишь в чате, {username}, мат.модель забирает твою работу",
 }
 
