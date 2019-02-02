@@ -5,7 +5,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/golang:1.10.1
+      - image: circleci/golang:1.11.5
 
     working_directory: /go/src/github.com/deeprefactoring/deeprefactoring-bot
     steps:
@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Install glide
           environment:
-            DEP_VERSION: v0.4.1
+            DEP_VERSION: v0.5.0
           command: |
             mkdir -p /tmp/dep/release
             cd /tmp/dep
@@ -48,14 +48,14 @@ jobs:
 
     steps:
       - checkout
-      - run: pip install ansible==2.3.1.0
+      - run: pip install ansible==2.7.6
       - attach_workspace:
           at: .
       - run: echo ${VAULT_PASSWORD} > .circleci/password
       - deploy:
           command: |
             cd .circleci
-            ansible-playbook site.yml -i production  --vault-password-file password
+            ansible-playbook site.yml -i production --vault-password-file password
 
 workflows:
   version: 2

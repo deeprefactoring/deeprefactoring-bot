@@ -1,7 +1,5 @@
 ---
 - hosts: all
-#  roles:
-#    - deeprefactoring-bot
   vars:
     bot_root: /opt/deeprefactoring-bot
     bot_binary: '{{bot_root}}/deeprefactoring-bot'
