@@ -1,2 +1,2 @@
 [bot]
-95.216.141.242
+95.216.141.242 ansible_user=ansible
