@@ -53,6 +53,9 @@ jobs:
       - attach_workspace:
           at: .
       - run: echo ${VAULT_PASSWORD} > .circleci/password
+      - add_ssh_keys:
+          fingerprints:
+            - "82:45:a8:11:28:b0:30:6f:43:2c:15:25:3d:2f:f9:f4"
       - deploy:
           command: |
             cd .circleci
