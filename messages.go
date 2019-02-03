@@ -17,6 +17,7 @@ var GreetingMessages = []string{
 }
 
 var CurseMessages = []string{
+	"{username} ушел в реальный мир",
 }
 
 var RollMessages = []string{
