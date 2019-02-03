@@ -59,7 +59,7 @@ jobs:
       - deploy:
           command: |
             cd .circleci
-            ansible-playbook site.yml -i production --vault-password-file password
+            ansible-playbook site.yml -vvvv -i production --vault-password-file password
 
 workflows:
   version: 2
