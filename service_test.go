@@ -1,12 +1,13 @@
 package deeprefactoringbot_test
 
 import (
-	"github.com/deeprefactoring/deeprefactoring-bot"
-	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"testing"
+
+	deeprefactoringbot "github.com/deeprefactoring/deeprefactoring-bot"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 type FakeBot struct {
@@ -31,11 +32,17 @@ func (bot *FakeBot) LastMessageConfig() tgbotapi.MessageConfig {
 	return bot.LastChattable().(tgbotapi.MessageConfig)
 }
 
+type FakeMessage struct{}
+
+func (f *FakeMessage) GetGreeting() string { return "Greeting" }
+func (f *FakeMessage) GetCurse() string    { return "Curse" }
+func (f *FakeMessage) GetRoll() string     { return "Roll" }
+
 func ServiceWithLogger(bot deeprefactoringbot.BotAPI) (*deeprefactoringbot.Service, *test.Hook) {
 	logger, hook := test.NewNullLogger()
 	logger.Level = logrus.DebugLevel
 
-	service := deeprefactoringbot.NewService(bot, logger.WithField("name", "logger"))
+	service := deeprefactoringbot.NewService(bot, logger.WithField("name", "logger"), &FakeMessage{})
 
 	return service, hook
 }
@@ -172,9 +179,10 @@ func TestService_RollMessage(t *testing.T) {
 	})
 
 	assert.Equal(t, len(bot.SentMessages), 1)
-	assert.Contains(
+	assert.Equal(
 		t,
-		applyUsername(deeprefactoringbot.RollMessages, user.UserName),
+		service.GetMessage().GetRoll(),
+		// applyUsername(deeprefactoringbot.RollMessages, user.UserName),
 		bot.LastMessageConfig().Text,
 	)
 }
@@ -202,7 +210,8 @@ func TestService_Greeting(t *testing.T) {
 	assert.Equal(t, len(bot.SentMessages), 1)
 	assert.Contains(
 		t,
-		applyUsername(deeprefactoringbot.GreetingMessages, user.UserName),
+		service.GetMessage().GetGreeting(),
+		// applyUsername(deeprefactoringbot.GreetingMessages, user.UserName),
 		bot.LastMessageConfig().Text,
 	)
 }
@@ -226,7 +235,8 @@ func TestService_Greeting2(t *testing.T) {
 	assert.Equal(t, len(bot.SentMessages), 1)
 	assert.Contains(
 		t,
-		applyUsername(deeprefactoringbot.GreetingMessages, user.UserName),
+		service.GetMessage().GetGreeting(),
+		// applyUsername(deeprefactoringbot.GreetingMessages, user.UserName),
 		bot.LastMessageConfig().Text,
 	)
 }
@@ -250,7 +260,8 @@ func TestService_GoAwayMessage(t *testing.T) {
 	assert.Equal(t, len(bot.SentMessages), 1)
 	assert.Contains(
 		t,
-		applyUsername(deeprefactoringbot.CurseMessages, user.UserName),
+		service.GetMessage().GetCurse(),
+		// applyUsername(deeprefactoringbot.CurseMessages, user.UserName),
 		bot.LastMessageConfig().Text,
 	)
 }

@@ -2,10 +2,12 @@ package deeprefactoringbot
 
 import (
 	"fmt"
-	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"time"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+
+	"github.com/sirupsen/logrus"
 )
 
 // Generic (joke) bot API interface to use in tests,
@@ -18,9 +20,10 @@ type BotAPI interface {
 type Service struct {
 	bot    BotAPI
 	logger *logrus.Entry
+	msg    MessageProvider
 }
 
-func NewServiceFromTgbotapi(apiKey string) (*Service, error) {
+func NewServiceFromTgbotapi(apiKey string, msg MessageProvider) (*Service, error) {
 	logger := logrus.WithField("name", "telegram.Service")
 
 	bot, err := tgbotapi.NewBotAPIWithClient(
@@ -36,11 +39,11 @@ func NewServiceFromTgbotapi(apiKey string) (*Service, error) {
 
 	logger.Info("Authorized")
 
-	return NewService(bot, logger), nil
+	return NewService(bot, logger, msg), nil
 }
 
-func NewService(bot BotAPI, logger *logrus.Entry) *Service {
-	return &Service{logger: logger, bot: bot}
+func NewService(bot BotAPI, logger *logrus.Entry, msg MessageProvider) *Service {
+	return &Service{logger: logger, bot: bot, msg: msg}
 }
 
 func (s *Service) Listen() {
@@ -109,12 +112,12 @@ func (s *Service) Send(update *tgbotapi.Update, text string) error {
 }
 
 func (s *Service) Greeting(update *tgbotapi.Update, username string) error {
-	text := RandomGreeting(username)
+	text := ReplaceUsername(s.msg.GetGreeting(), username)
 	return s.Send(update, text)
 }
 
 func (s *Service) GoAwayMessage(update *tgbotapi.Update, username string) error {
-	text := RandomCurse(username)
+	text := ReplaceUsername(s.msg.GetCurse(), username)
 	return s.Send(update, text)
 }
 
@@ -124,11 +127,15 @@ func (s *Service) NextMeetup(update *tgbotapi.Update) error {
 }
 
 func (s *Service) RollMessage(update *tgbotapi.Update) error {
-	text := RollMessage()
+	text := s.msg.GetRoll()
 	return s.Send(update, text)
 }
 
 func (s *Service) Hammertime(update *tgbotapi.Update) error {
 	text := HammertimeInfo()
 	return s.Send(update, text)
+}
+
+func (s *Service) GetMessage() MessageProvider {
+	return s.msg
 }
