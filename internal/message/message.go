@@ -43,7 +43,7 @@ func NewFileMessage(path string) (*FileMessage, error) {
 	}, nil
 }
 
-// randomMessage returns a random message from a slise
+// randomMessage returns a random message from a slice
 func (m *FileMessage) randomMessage(messages []string) string {
 	// avoid empty slice crash
 	if len(messages) == 0 {

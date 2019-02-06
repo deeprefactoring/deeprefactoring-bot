@@ -182,7 +182,6 @@ func TestService_RollMessage(t *testing.T) {
 	assert.Equal(
 		t,
 		service.GetMessage().GetRoll(),
-		// applyUsername(deeprefactoringbot.RollMessages, user.UserName),
 		bot.LastMessageConfig().Text,
 	)
 }
@@ -211,7 +210,6 @@ func TestService_Greeting(t *testing.T) {
 	assert.Contains(
 		t,
 		service.GetMessage().GetGreeting(),
-		// applyUsername(deeprefactoringbot.GreetingMessages, user.UserName),
 		bot.LastMessageConfig().Text,
 	)
 }
@@ -236,7 +234,6 @@ func TestService_Greeting2(t *testing.T) {
 	assert.Contains(
 		t,
 		service.GetMessage().GetGreeting(),
-		// applyUsername(deeprefactoringbot.GreetingMessages, user.UserName),
 		bot.LastMessageConfig().Text,
 	)
 }
@@ -261,7 +258,6 @@ func TestService_GoAwayMessage(t *testing.T) {
 	assert.Contains(
 		t,
 		service.GetMessage().GetCurse(),
-		// applyUsername(deeprefactoringbot.CurseMessages, user.UserName),
 		bot.LastMessageConfig().Text,
 	)
 }
