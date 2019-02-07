@@ -16,7 +16,7 @@ var (
 		"test message 3",
 		"test message 100500",
 	}
-	testNoMSG = []string{}
+	testNoMSG []string
 )
 
 func TestFileMessageGetGreeting(t *testing.T) {

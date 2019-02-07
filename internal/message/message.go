@@ -1,11 +1,10 @@
 package message
 
 import (
+	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"math/rand"
 	"time"
-
-	yaml "gopkg.in/yaml.v2"
 )
 
 // StorageModel format of message file
@@ -21,7 +20,7 @@ type FileMessage struct {
 	msg StorageModel
 }
 
-// NewFileMessage create new mesage repository access entity
+// NewFileMessage creates new message repository access entity
 func NewFileMessage(path string) (*FileMessage, error) {
 	yamlFile, err := ioutil.ReadFile(path)
 	if err != nil {

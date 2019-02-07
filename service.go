@@ -2,12 +2,10 @@ package deeprefactoringbot
 
 import (
 	"fmt"
+	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/sirupsen/logrus"
 	"net/http"
 	"time"
-
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-
-	"github.com/sirupsen/logrus"
 )
 
 // Generic (joke) bot API interface to use in tests,
@@ -39,10 +37,10 @@ func NewServiceFromTgbotapi(apiKey string, msg MessageProvider) (*Service, error
 
 	logger.Info("Authorized")
 
-	return NewService(bot, logger, msg), nil
+	return NewService(bot, msg, logger), nil
 }
 
-func NewService(bot BotAPI, logger *logrus.Entry, msg MessageProvider) *Service {
+func NewService(bot BotAPI, msg MessageProvider, logger *logrus.Entry) *Service {
 	return &Service{logger: logger, bot: bot, msg: msg}
 }
 
