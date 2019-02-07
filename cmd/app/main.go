@@ -3,12 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
-	"os"
-
-	deeprefactoringbot "github.com/deeprefactoring/deeprefactoring-bot"
+	"github.com/deeprefactoring/deeprefactoring-bot"
 	"github.com/deeprefactoring/deeprefactoring-bot/internal/message"
 	"github.com/sirupsen/logrus"
+	"log"
+	"os"
 )
 
 var buildVersion, buildDate string
@@ -21,7 +20,7 @@ var Arguments struct {
 
 func init() {
 	flag.StringVar(&Arguments.ConfigPath, "config", "config.yml", "configuration path")
-	flag.StringVar(&Arguments.MessagePath, "message", "messages.yml", "message list path")
+	flag.StringVar(&Arguments.MessagePath, "messages", "messages.yml", "messages config path")
 	flag.BoolVar(&Arguments.Version, "version", false, "output version information")
 	flag.Parse()
 }

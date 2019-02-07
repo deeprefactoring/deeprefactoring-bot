@@ -1,13 +1,12 @@
 package deeprefactoringbot_test
 
 import (
-	"testing"
-
-	deeprefactoringbot "github.com/deeprefactoring/deeprefactoring-bot"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/deeprefactoring/deeprefactoring-bot"
+	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 type FakeBot struct {
@@ -42,7 +41,7 @@ func ServiceWithLogger(bot deeprefactoringbot.BotAPI) (*deeprefactoringbot.Servi
 	logger, hook := test.NewNullLogger()
 	logger.Level = logrus.DebugLevel
 
-	service := deeprefactoringbot.NewService(bot, logger.WithField("name", "logger"), &FakeMessage{})
+	service := deeprefactoringbot.NewService(bot, &FakeMessage{}, logger.WithField("name", "logger"))
 
 	return service, hook
 }

@@ -1,10 +1,9 @@
 package deeprefactoringbot_test
 
 import (
-	"testing"
-
-	deeprefactoringbot "github.com/deeprefactoring/deeprefactoring-bot"
+	"github.com/deeprefactoring/deeprefactoring-bot"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestReplaceUsername(t *testing.T) {
