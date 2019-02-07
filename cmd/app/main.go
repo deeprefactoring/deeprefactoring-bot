@@ -3,21 +3,25 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/deeprefactoring/deeprefactoring-bot"
-	"github.com/sirupsen/logrus"
 	"log"
 	"os"
+
+	deeprefactoringbot "github.com/deeprefactoring/deeprefactoring-bot"
+	"github.com/deeprefactoring/deeprefactoring-bot/internal/message"
+	"github.com/sirupsen/logrus"
 )
 
 var buildVersion, buildDate string
 
 var Arguments struct {
-	ConfigPath string
-	Version    bool
+	ConfigPath  string
+	MessagePath string
+	Version     bool
 }
 
 func init() {
 	flag.StringVar(&Arguments.ConfigPath, "config", "config.yml", "configuration path")
+	flag.StringVar(&Arguments.MessagePath, "message", "messages.yml", "message list path")
 	flag.BoolVar(&Arguments.Version, "version", false, "output version information")
 	flag.Parse()
 }
@@ -40,9 +44,14 @@ func main() {
 		log.Fatal(err)
 	}
 
+	msg, err := message.NewFileMessage(Arguments.MessagePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	initLogger(config.Application.LogLevel)
 
-	service, err := deeprefactoringbot.NewServiceFromTgbotapi(config.Telegram.ApiKey)
+	service, err := deeprefactoringbot.NewServiceFromTgbotapi(config.Telegram.ApiKey, msg)
 	if err != nil {
 		log.Fatal(err)
 	}

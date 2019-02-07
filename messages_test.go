@@ -1,9 +1,10 @@
 package deeprefactoringbot_test
 
 import (
-	"github.com/deeprefactoring/deeprefactoring-bot"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	deeprefactoringbot "github.com/deeprefactoring/deeprefactoring-bot"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestReplaceUsername(t *testing.T) {
@@ -25,12 +26,4 @@ func TestReplaceUsername(t *testing.T) {
 
 func TestHammertime(t *testing.T) {
 	assert.Equal(t, deeprefactoringbot.HammertimeInfo(), "https://ci.memecdn.com/2501287.gif")
-}
-
-func TestRandomCurse(t *testing.T) {
-	assert.NotEqual(t, deeprefactoringbot.RandomCurse("x"), "")
-}
-
-func TestRandomGreeting(t *testing.T) {
-	assert.NotEqual(t, deeprefactoringbot.RandomGreeting("x"), "")
 }

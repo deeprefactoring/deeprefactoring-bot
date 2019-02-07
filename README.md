@@ -23,6 +23,10 @@ git clone github.com/deeprefactoring/deeprefactoring-bot
 * Build `make build`, produces `deeprefactoring-bot` binary
 * Run tests `make test`
 
+### Messages
+
+To add new bot messages change `message.yml` file
+
 <i name="f1">[1]:</i> Famous deep refactoring collaborator Anton Chikin in Telegram [↩](#a1)
 <br>
 <i name="f2">[2]:</i> https://telegram.me/BotFather [↩](#a2)
