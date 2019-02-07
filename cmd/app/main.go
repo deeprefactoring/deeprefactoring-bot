@@ -21,7 +21,7 @@ var Arguments struct {
 
 func init() {
 	flag.StringVar(&Arguments.ConfigPath, "config", "config.yml", "configuration path")
-	flag.StringVar(&Arguments.MessagePath, "message", "message.yml", "message list path")
+	flag.StringVar(&Arguments.MessagePath, "message", "messages.yml", "message list path")
 	flag.BoolVar(&Arguments.Version, "version", false, "output version information")
 	flag.Parse()
 }
