@@ -43,7 +43,7 @@
         - restart bot service
 
     - name: install messages
-      template:
+      copy:
         src: ../messages.yml
         dest: '{{bot_root}}/messages.yml'
         mode: 0644
