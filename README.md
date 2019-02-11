@@ -25,7 +25,7 @@ git clone github.com/deeprefactoring/deeprefactoring-bot
 
 ### Messages
 
-To add new bot messages change `message.yml` file
+Change `messages.yml` file to add new bot messages.
 
 <i name="f1">[1]:</i> Famous deep refactoring collaborator Anton Chikin in Telegram [↩](#a1)
 <br>

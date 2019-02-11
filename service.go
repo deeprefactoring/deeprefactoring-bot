@@ -39,10 +39,10 @@ func NewServiceFromTgbotapi(apiKey string, msg MessageProvider) (*Service, error
 
 	logger.Info("Authorized")
 
-	return NewService(bot, logger, msg), nil
+	return NewService(bot, msg, logger), nil
 }
 
-func NewService(bot BotAPI, logger *logrus.Entry, msg MessageProvider) *Service {
+func NewService(bot BotAPI, msg MessageProvider, logger *logrus.Entry) *Service {
 	return &Service{logger: logger, bot: bot, msg: msg}
 }
 

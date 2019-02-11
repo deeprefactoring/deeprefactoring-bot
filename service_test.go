@@ -42,7 +42,7 @@ func ServiceWithLogger(bot deeprefactoringbot.BotAPI) (*deeprefactoringbot.Servi
 	logger, hook := test.NewNullLogger()
 	logger.Level = logrus.DebugLevel
 
-	service := deeprefactoringbot.NewService(bot, logger.WithField("name", "logger"), &FakeMessage{})
+	service := deeprefactoringbot.NewService(bot, &FakeMessage{}, logger.WithField("name", "logger"))
 
 	return service, hook
 }
