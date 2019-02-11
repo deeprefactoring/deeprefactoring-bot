@@ -1,13 +1,12 @@
 package deeprefactoringbot_test
 
 import (
-	"testing"
-
-	deeprefactoringbot "github.com/deeprefactoring/deeprefactoring-bot"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/deeprefactoring/deeprefactoring-bot"
+	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 type FakeBot struct {

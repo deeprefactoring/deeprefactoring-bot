@@ -8,10 +8,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"log"
 	"os"
-
-	deeprefactoringbot "github.com/deeprefactoring/deeprefactoring-bot"
-	"github.com/deeprefactoring/deeprefactoring-bot/internal/message"
-	"github.com/sirupsen/logrus"
 )
 
 var buildVersion, buildDate string
