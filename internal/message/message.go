@@ -17,13 +17,9 @@ type ShuffleStringSlice struct {
 func (s *ShuffleStringSlice) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var str []string
 	err := unmarshal(&str)
+	shuffleStringSlice(str)
 	s.s = str
 	return err
-}
-
-// ShuffleWith does a shuffle based on a shuffle function
-func (s *ShuffleStringSlice) ShuffleWith(sf func([]string)) {
-	sf(s.s)
 }
 
 // GetNext returns a next string from a shuffled slice
@@ -36,6 +32,7 @@ func (s *ShuffleStringSlice) GetNext() string {
 	s.i++
 	if s.i == len(s.s) {
 		s.i = 0
+		shuffleStringSlice(s.s)
 	}
 	return s.s[s.i]
 }
@@ -49,12 +46,14 @@ type StorageModel struct {
 
 // FileMessage provides messages from internal storage
 type FileMessage struct {
-	r   *rand.Rand
 	msg StorageModel
 }
 
 // NewFileMessage creates new message repository access entity
 func NewFileMessage(path string) (*FileMessage, error) {
+	// set random generator seed
+	rand.Seed(time.Now().UTC().UnixNano())
+
 	yamlFile, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -67,19 +66,7 @@ func NewFileMessage(path string) (*FileMessage, error) {
 		return nil, err
 	}
 
-	r := rand.New(rand.NewSource(time.Now().Unix()))
-
-	shuffleFunc := func(a []string) {
-		r.Shuffle(len(a), func(i, j int) { a[i], a[j] = a[j], a[i] })
-	}
-
-	// shuffle message slices
-	msg.Greeting.ShuffleWith(shuffleFunc)
-	msg.Curse.ShuffleWith(shuffleFunc)
-	msg.Roll.ShuffleWith(shuffleFunc)
-
 	return &FileMessage{
-		r:   r,
 		msg: msg,
 	}, nil
 }
@@ -97,4 +84,9 @@ func (m *FileMessage) GetCurse() string {
 // GetRoll returns a topic message from file
 func (m *FileMessage) GetRoll() string {
 	return m.msg.Roll.GetNext()
+}
+
+// shuffleStringSlice does a slice shuffle
+func shuffleStringSlice(a []string) {
+	rand.Shuffle(len(a), func(i, j int) { a[i], a[j] = a[j], a[i] })
 }

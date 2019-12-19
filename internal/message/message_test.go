@@ -2,10 +2,8 @@ package message
 
 import (
 	"io/ioutil"
-	"math/rand"
 	"os"
 	"testing"
-	"time"
 )
 
 var (
@@ -27,9 +25,7 @@ var (
 )
 
 func TestFileMessageGetGreeting(t *testing.T) {
-	rnd := rand.New(rand.NewSource(time.Now().Unix()))
 	type fields struct {
-		r   *rand.Rand
 		msg StorageModel
 	}
 	tests := []struct {
@@ -40,7 +36,6 @@ func TestFileMessageGetGreeting(t *testing.T) {
 		{
 			name: "single message",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Greeting: testSingleMSG,
 				},
@@ -50,7 +45,6 @@ func TestFileMessageGetGreeting(t *testing.T) {
 		{
 			name: "several messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Greeting: testManyMSG,
 				},
@@ -60,7 +54,6 @@ func TestFileMessageGetGreeting(t *testing.T) {
 		{
 			name: "no messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Greeting: testNoMSG,
 				},
@@ -71,7 +64,6 @@ func TestFileMessageGetGreeting(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := &FileMessage{
-				r:   tt.fields.r,
 				msg: tt.fields.msg,
 			}
 
@@ -84,9 +76,7 @@ func TestFileMessageGetGreeting(t *testing.T) {
 }
 
 func TestFileMessageGetCurse(t *testing.T) {
-	rnd := rand.New(rand.NewSource(time.Now().Unix()))
 	type fields struct {
-		r   *rand.Rand
 		msg StorageModel
 	}
 	tests := []struct {
@@ -97,7 +87,6 @@ func TestFileMessageGetCurse(t *testing.T) {
 		{
 			name: "single message",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Curse: testSingleMSG,
 				},
@@ -107,7 +96,6 @@ func TestFileMessageGetCurse(t *testing.T) {
 		{
 			name: "several messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Curse: testManyMSG,
 				},
@@ -117,7 +105,6 @@ func TestFileMessageGetCurse(t *testing.T) {
 		{
 			name: "no messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Curse: testNoMSG,
 				},
@@ -128,7 +115,6 @@ func TestFileMessageGetCurse(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := &FileMessage{
-				r:   tt.fields.r,
 				msg: tt.fields.msg,
 			}
 
@@ -141,9 +127,7 @@ func TestFileMessageGetCurse(t *testing.T) {
 }
 
 func TestFileMessageGetRoll(t *testing.T) {
-	rnd := rand.New(rand.NewSource(time.Now().Unix()))
 	type fields struct {
-		r   *rand.Rand
 		msg StorageModel
 	}
 	tests := []struct {
@@ -154,7 +138,6 @@ func TestFileMessageGetRoll(t *testing.T) {
 		{
 			name: "single message",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Roll: testSingleMSG,
 				},
@@ -164,7 +147,6 @@ func TestFileMessageGetRoll(t *testing.T) {
 		{
 			name: "several messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Roll: testManyMSG,
 				},
@@ -174,7 +156,6 @@ func TestFileMessageGetRoll(t *testing.T) {
 		{
 			name: "no messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Roll: testNoMSG,
 				},
@@ -185,7 +166,6 @@ func TestFileMessageGetRoll(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := &FileMessage{
-				r:   tt.fields.r,
 				msg: tt.fields.msg,
 			}
 
