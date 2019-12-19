@@ -7,11 +7,44 @@ import (
 	"time"
 )
 
+// ShuffleStringSlice is a string slice with counter and shuffle methods
+type ShuffleStringSlice struct {
+	s []string
+	i int
+}
+
+// UnmarshalYAML parses string array into a slice and initializes a counter
+func (s *ShuffleStringSlice) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var str []string
+	err := unmarshal(&str)
+	s.s = str
+	return err
+}
+
+// ShuffleWith does a shuffle based on a shuffle function
+func (s *ShuffleStringSlice) ShuffleWith(sf func([]string)) {
+	sf(s.s)
+}
+
+// GetNext returns a next string from a shuffled slice
+// it will begin from the first element if the counter will reach the end of the slice
+func (s *ShuffleStringSlice) GetNext() string {
+	if len(s.s) == 0 {
+		return ""
+	}
+
+	s.i++
+	if s.i == len(s.s) {
+		s.i = 0
+	}
+	return s.s[s.i]
+}
+
 // StorageModel format of message file
 type StorageModel struct {
-	Greeting []string `yaml:"greeting"`
-	Curse    []string `yaml:"curse"`
-	Roll     []string `yaml:"roll"`
+	Greeting ShuffleStringSlice `yaml:"greeting"`
+	Curse    ShuffleStringSlice `yaml:"curse"`
+	Roll     ShuffleStringSlice `yaml:"roll"`
 }
 
 // FileMessage provides messages from internal storage
@@ -36,32 +69,32 @@ func NewFileMessage(path string) (*FileMessage, error) {
 
 	r := rand.New(rand.NewSource(time.Now().Unix()))
 
+	shuffleFunc := func(a []string) {
+		r.Shuffle(len(a), func(i, j int) { a[i], a[j] = a[j], a[i] })
+	}
+
+	// shuffle message slices
+	msg.Greeting.ShuffleWith(shuffleFunc)
+	msg.Curse.ShuffleWith(shuffleFunc)
+	msg.Roll.ShuffleWith(shuffleFunc)
+
 	return &FileMessage{
 		r:   r,
 		msg: msg,
 	}, nil
 }
 
-// randomMessage returns a random message from a slice
-func (m *FileMessage) randomMessage(messages []string) string {
-	// avoid empty slice crash
-	if len(messages) == 0 {
-		return ""
-	}
-	return messages[m.r.Intn(len(messages))]
-}
-
 // GetGreeting returns a greeting message from file
 func (m *FileMessage) GetGreeting() string {
-	return m.randomMessage(m.msg.Greeting)
+	return m.msg.Greeting.GetNext()
 }
 
 // GetCurse returns a farewell message from file
 func (m *FileMessage) GetCurse() string {
-	return m.randomMessage(m.msg.Curse)
+	return m.msg.Curse.GetNext()
 }
 
 // GetRoll returns a topic message from file
 func (m *FileMessage) GetRoll() string {
-	return m.randomMessage(m.msg.Roll)
+	return m.msg.Roll.GetNext()
 }
