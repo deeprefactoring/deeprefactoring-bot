@@ -4,13 +4,14 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"math/rand"
+	"sync/atomic"
 	"time"
 )
 
 // ShuffleStringSlice is a string slice with counter and shuffle methods
 type ShuffleStringSlice struct {
 	s []string
-	i int
+	i uint64
 }
 
 // UnmarshalYAML parses string array into a slice and initializes a counter
@@ -29,8 +30,8 @@ func (s *ShuffleStringSlice) GetNext() string {
 		return ""
 	}
 
-	s.i++
-	if s.i == len(s.s) {
+	atomic.AddUint64(&s.i, 1)
+	if s.i == uint64(len(s.s)) {
 		s.i = 0
 		shuffleStringSlice(s.s)
 	}
