@@ -1,28 +1,31 @@
 package message
 
 import (
-	"math/rand"
+	"io/ioutil"
+	"os"
 	"testing"
-	"time"
 )
 
 var (
-	testSingleMSG = []string{
-		"test message",
+	testSingleMSG = ShuffleStringSlice{
+		s: []string{
+			"test message",
+		},
 	}
-	testManyMSG = []string{
-		"test message",
-		"test message 2",
-		"test message 3",
-		"test message 100500",
+
+	testManyMSG = ShuffleStringSlice{
+		s: []string{
+			"test message",
+			"test message 2",
+			"test message 3",
+			"test message 100500",
+		},
 	}
-	testNoMSG []string
+	testNoMSG ShuffleStringSlice
 )
 
 func TestFileMessageGetGreeting(t *testing.T) {
-	rnd := rand.New(rand.NewSource(time.Now().Unix()))
 	type fields struct {
-		r   *rand.Rand
 		msg StorageModel
 	}
 	tests := []struct {
@@ -33,7 +36,6 @@ func TestFileMessageGetGreeting(t *testing.T) {
 		{
 			name: "single message",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Greeting: testSingleMSG,
 				},
@@ -43,7 +45,6 @@ func TestFileMessageGetGreeting(t *testing.T) {
 		{
 			name: "several messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Greeting: testManyMSG,
 				},
@@ -53,7 +54,6 @@ func TestFileMessageGetGreeting(t *testing.T) {
 		{
 			name: "no messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Greeting: testNoMSG,
 				},
@@ -64,12 +64,11 @@ func TestFileMessageGetGreeting(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := &FileMessage{
-				r:   tt.fields.r,
 				msg: tt.fields.msg,
 			}
 
 			got := m.GetGreeting()
-			if (!tt.empty && !testStringInSlice(got, tt.fields.msg.Greeting)) || (tt.empty && got != "") {
+			if (!tt.empty && !testStringInSlice(got, tt.fields.msg.Greeting.s)) || (tt.empty && got != "") {
 				t.Errorf("GetGreeting() returns wrong message %s", got)
 			}
 		})
@@ -77,9 +76,7 @@ func TestFileMessageGetGreeting(t *testing.T) {
 }
 
 func TestFileMessageGetCurse(t *testing.T) {
-	rnd := rand.New(rand.NewSource(time.Now().Unix()))
 	type fields struct {
-		r   *rand.Rand
 		msg StorageModel
 	}
 	tests := []struct {
@@ -90,7 +87,6 @@ func TestFileMessageGetCurse(t *testing.T) {
 		{
 			name: "single message",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Curse: testSingleMSG,
 				},
@@ -100,7 +96,6 @@ func TestFileMessageGetCurse(t *testing.T) {
 		{
 			name: "several messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Curse: testManyMSG,
 				},
@@ -110,7 +105,6 @@ func TestFileMessageGetCurse(t *testing.T) {
 		{
 			name: "no messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Curse: testNoMSG,
 				},
@@ -121,12 +115,11 @@ func TestFileMessageGetCurse(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := &FileMessage{
-				r:   tt.fields.r,
 				msg: tt.fields.msg,
 			}
 
 			got := m.GetCurse()
-			if (!tt.empty && !testStringInSlice(got, tt.fields.msg.Curse)) || (tt.empty && got != "") {
+			if (!tt.empty && !testStringInSlice(got, tt.fields.msg.Curse.s)) || (tt.empty && got != "") {
 				t.Errorf("GetCurse() returns wrong message %s", got)
 			}
 		})
@@ -134,9 +127,7 @@ func TestFileMessageGetCurse(t *testing.T) {
 }
 
 func TestFileMessageGetRoll(t *testing.T) {
-	rnd := rand.New(rand.NewSource(time.Now().Unix()))
 	type fields struct {
-		r   *rand.Rand
 		msg StorageModel
 	}
 	tests := []struct {
@@ -147,7 +138,6 @@ func TestFileMessageGetRoll(t *testing.T) {
 		{
 			name: "single message",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Roll: testSingleMSG,
 				},
@@ -157,7 +147,6 @@ func TestFileMessageGetRoll(t *testing.T) {
 		{
 			name: "several messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Roll: testManyMSG,
 				},
@@ -167,7 +156,6 @@ func TestFileMessageGetRoll(t *testing.T) {
 		{
 			name: "no messages",
 			fields: fields{
-				r: rnd,
 				msg: StorageModel{
 					Roll: testNoMSG,
 				},
@@ -178,15 +166,54 @@ func TestFileMessageGetRoll(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := &FileMessage{
-				r:   tt.fields.r,
 				msg: tt.fields.msg,
 			}
 
 			got := m.GetRoll()
-			if (!tt.empty && !testStringInSlice(got, tt.fields.msg.Roll)) || (tt.empty && got != "") {
+			if (!tt.empty && !testStringInSlice(got, tt.fields.msg.Roll.s)) || (tt.empty && got != "") {
 				t.Errorf("GetRoll() returns wrong message '%s'", got)
 			}
 		})
+	}
+}
+
+func TestNewFileMessage(t *testing.T) {
+	msgText := `---
+greeting:
+  - "greeting1"
+  - "greeting2"
+  - "greeting3"
+
+curse:
+  - "curse1"
+  - "curse2"
+  - "curse3"
+
+roll:
+  - "roll1"
+  - "roll2"
+  - "roll3"
+`
+	file, err := ioutil.TempFile(os.TempDir(), "*.yml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	file.Write([]byte(msgText))
+	defer os.Remove(file.Name())
+
+	fm, err := NewFileMessage(file.Name())
+	if err != nil {
+		t.Errorf("unexpected error %v", err)
+	} else {
+		if !testStringInSlice("greeting2", fm.msg.Greeting.s) {
+			t.Errorf("wrong file parsing: rolls %v must contain %s", fm.msg.Greeting.s, "greeting2")
+		}
+		if !testStringInSlice("curse2", fm.msg.Curse.s) {
+			t.Errorf("wrong file parsing: rolls %v must contain %s", fm.msg.Curse.s, "curse2")
+		}
+		if !testStringInSlice("roll2", fm.msg.Roll.s) {
+			t.Errorf("wrong file parsing: rolls %v must contain %s", fm.msg.Roll.s, "roll2")
+		}
 	}
 }
 
