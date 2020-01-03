@@ -10,7 +10,7 @@ This is a community bot of Глубокий Рефакторинг (Deep Refacto
 * Follow instructions there to create bot and obtain api_key
 
 ## Contribution
-* Install [Go 1.8+]<sup name="a3">[3](#f3)</sup>
+* Install [Go 1.10+]<sup name="a3">[3](#f3)</sup>
 * Download code to `$GOPATH/src/github.com/deeprefactoring/deeprefactoring-bot` folder:
 ```bash
 mkdir -p github.com/deeprefactoring
