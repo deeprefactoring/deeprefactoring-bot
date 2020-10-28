@@ -1,11 +1,12 @@
-package deeprefactoringbot
+package bot
 
 import (
 	"fmt"
-	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"time"
+
+	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/sirupsen/logrus"
 )
 
 // Generic (joke) bot API interface to use in tests,

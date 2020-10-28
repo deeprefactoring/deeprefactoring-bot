@@ -1,8 +1,6 @@
 PACKAGE := github.com/deeprefactoring/deeprefactoring-bot
 BINARY_NAME := deeprefactoring-bot
 
-GOFILES_NOVENDOR = $(shell find . -type f -name '*.go' | grep -v /vendor/ )
-
 SHELL := /bin/bash
 
 VERSION ?= $(shell git describe --long --tags --dirty --always)
@@ -14,17 +12,13 @@ VERSION_FLAGS := -X main.buildVersion=$(VERSION) -X main.buildDate=$(DATE)
 version:
 	@echo $(VERSION)
 
-.PHONY: deps
-deps:
-	dep ensure
-
 .PHONY: format-check
 format-check:
-	@gofmt -l -d $(GOFILES_NOVENDOR) | tee /dev/stderr | grep ^ && exit 1 || true > /dev/null 2>&1
+	@gofmt -l . | tee /dev/stderr | grep ^ && exit 1 || true > /dev/null 2>&1
 
 .PHONY: vet
 vet:
-	@go tool vet -all $(GOFILES_NOVENDOR)
+	@go vet ./...
 
 .PHONY: lint
 lint: format-check vet
@@ -41,7 +35,7 @@ test:
 	go test -v \
 	    -cover -coverprofile=coverage.out \
 	    -race \
-	    $(PACKAGE)
+	    ./...
 	go tool cover -html=coverage.out -o coverage.html
 
 .PHONY: bench
@@ -51,4 +45,4 @@ bench:
 	    $(PACKAGE)
 
 .PHONY: package
-package: lint deps test build
+package: lint test build

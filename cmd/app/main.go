@@ -3,11 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/deeprefactoring/deeprefactoring-bot"
-	"github.com/deeprefactoring/deeprefactoring-bot/internal/message"
-	"github.com/sirupsen/logrus"
 	"log"
 	"os"
+
+	"github.com/sirupsen/logrus"
+
+	"github.com/deeprefactoring/deeprefactoring-bot/internal/bot"
+	"github.com/deeprefactoring/deeprefactoring-bot/internal/message"
 )
 
 var buildVersion, buildDate string
@@ -38,7 +40,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	config, err := deeprefactoringbot.NewConfig(Arguments.ConfigPath)
+	config, err := bot.NewConfig(Arguments.ConfigPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,7 +52,7 @@ func main() {
 
 	initLogger(config.Application.LogLevel)
 
-	service, err := deeprefactoringbot.NewServiceFromTgbotapi(config.Telegram.ApiKey, msg)
+	service, err := bot.NewServiceFromTgbotapi(config.Telegram.ApiKey, msg)
 	if err != nil {
 		log.Fatal(err)
 	}

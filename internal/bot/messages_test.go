@@ -1,9 +1,11 @@
-package deeprefactoringbot_test
+package bot_test
 
 import (
-	"github.com/deeprefactoring/deeprefactoring-bot"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/deeprefactoring/deeprefactoring-bot/internal/bot"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestReplaceUsername(t *testing.T) {
@@ -18,11 +20,11 @@ func TestReplaceUsername(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		actual := deeprefactoringbot.ReplaceUsername(c.template, c.username)
+		actual := bot.ReplaceUsername(c.template, c.username)
 		assert.Equal(t, c.expected, actual)
 	}
 }
 
 func TestHammertime(t *testing.T) {
-	assert.Equal(t, deeprefactoringbot.HammertimeInfo(), "https://ci.memecdn.com/2501287.gif")
+	assert.Equal(t, bot.HammertimeInfo(), "https://ci.memecdn.com/2501287.gif")
 }

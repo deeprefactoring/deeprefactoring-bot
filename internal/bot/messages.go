@@ -1,4 +1,4 @@
-package deeprefactoringbot
+package bot
 
 import (
 	"fmt"
