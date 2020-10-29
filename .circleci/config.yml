@@ -5,27 +5,11 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/golang:1.11.5
+      - image: circleci/golang:1.15
 
     working_directory: /go/src/github.com/deeprefactoring/deeprefactoring-bot
     steps:
       - checkout
-
-      - run:
-          name: Install glide
-          environment:
-            DEP_VERSION: v0.5.0
-          command: |
-            mkdir -p /tmp/dep/release
-            cd /tmp/dep
-            wget https://github.com/golang/dep/releases/download/${DEP_VERSION}/dep-linux-amd64.sha256 -O checksum.tmp
-            wget https://github.com/golang/dep/releases/download/${DEP_VERSION}/dep-linux-amd64 -O release/dep-linux-amd64
-            sed 's/[^ \t]*\/release\/dep-linux-amd64/\/tmp\/dep\/release\/dep-linux-amd64/' /tmp/dep/checksum.tmp > /tmp/dep/checksum
-            sha256sum -c checksum
-            chmod +x release/dep-linux-amd64
-            sudo mv release/dep-linux-amd64 /usr/bin/dep
-            cd ~/
-            rm -rf /tmp/dep
 
       - run: make package
 

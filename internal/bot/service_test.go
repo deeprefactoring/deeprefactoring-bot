@@ -1,12 +1,14 @@
-package deeprefactoringbot_test
+package bot_test
 
 import (
-	"github.com/deeprefactoring/deeprefactoring-bot"
+	"testing"
+
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
-	"testing"
+
+	deepbot "github.com/deeprefactoring/deeprefactoring-bot/internal/bot"
 )
 
 type FakeBot struct {
@@ -37,11 +39,11 @@ func (f *FakeMessage) GetGreeting() string { return "Greeting" }
 func (f *FakeMessage) GetCurse() string    { return "Curse" }
 func (f *FakeMessage) GetRoll() string     { return "Roll" }
 
-func ServiceWithLogger(bot deeprefactoringbot.BotAPI) (*deeprefactoringbot.Service, *test.Hook) {
+func ServiceWithLogger(bot deepbot.BotAPI) (*deepbot.Service, *test.Hook) {
 	logger, hook := test.NewNullLogger()
 	logger.Level = logrus.DebugLevel
 
-	service := deeprefactoringbot.NewService(bot, &FakeMessage{}, logger.WithField("name", "logger"))
+	service := deepbot.NewService(bot, &FakeMessage{}, logger.WithField("name", "logger"))
 
 	return service, hook
 }
@@ -151,7 +153,7 @@ func applyUsername(slice []string, username string) []string {
 	res := make([]string, len(slice))
 
 	for _, value := range slice {
-		res = append(res, deeprefactoringbot.ReplaceUsername(value, username))
+		res = append(res, deepbot.ReplaceUsername(value, username))
 	}
 
 	return res

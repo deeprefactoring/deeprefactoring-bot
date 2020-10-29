@@ -1,11 +1,13 @@
-package deeprefactoringbot_test
+package bot_test
 
 import (
-	"github.com/deeprefactoring/deeprefactoring-bot"
+	"testing"
+
+	deepbot "github.com/deeprefactoring/deeprefactoring-bot/internal/bot"
+
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v2"
-	"testing"
 )
 
 func TestApplicationConfig(t *testing.T) {
@@ -13,7 +15,7 @@ func TestApplicationConfig(t *testing.T) {
 	invalidRaw := "log_level: xxx"
 
 	t.Run("invalid level raises error", func(t *testing.T) {
-		var config deeprefactoringbot.ApplicationConfig
+		var config deepbot.ApplicationConfig
 
 		err := yaml.Unmarshal([]byte(invalidRaw), &config)
 		assert.Error(t, err)
@@ -21,7 +23,7 @@ func TestApplicationConfig(t *testing.T) {
 	})
 
 	t.Run("valid level", func(t *testing.T) {
-		var config deeprefactoringbot.ApplicationConfig
+		var config deepbot.ApplicationConfig
 
 		err := yaml.Unmarshal([]byte(validRaw), &config)
 		assert.NoError(t, err)

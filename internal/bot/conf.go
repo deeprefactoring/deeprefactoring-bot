@@ -1,10 +1,11 @@
-package deeprefactoringbot
+package bot
 
 import (
 	"fmt"
+	"io/ioutil"
+
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
-	"io/ioutil"
 )
 
 type TelegramConfig struct {
